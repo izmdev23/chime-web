@@ -8,10 +8,7 @@
         </div>
         <div class="container" id="contents">
             @for (product of products(); track product.id) {
-                <app-catalog-card 
-                [name]="product.name" 
-                [price]="product.price" 
-                [salePrice]="product.salePrice"/>
+                <app-catalog-card [data]="product"/>
             }
         </div>
     </div>
