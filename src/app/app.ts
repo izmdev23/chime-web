@@ -20,7 +20,7 @@ export class App {
   
   ngOnInit() {
     if (this.cookie.check("auth")) {
-      console.warn("logging in automatically", "feature not yet implemented");
+      console.warn("logging in automatically", "feature not yet properly implemented");
       let auth = JSON.parse(this.cookie.get("auth")) as LoginResponseDto;
       
     }

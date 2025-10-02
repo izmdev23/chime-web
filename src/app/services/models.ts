@@ -9,6 +9,11 @@ export interface LoginResponseDto {
     refreshToken: string;
 }
 
+export interface ProductCategoryDto {
+    id: number;
+    name: string;
+}
+
 export interface ApiResponse<T> {
     code: number;
     message: string;

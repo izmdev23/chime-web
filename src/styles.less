@@ -44,6 +44,18 @@
     }
 }
 
+p.--hover {
+    &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+        color: @background-color-primary;
+    }
+
+    &:active {
+        filter: brightness(0.75);
+    }
+}
+
 .--button {
     padding: 4px 8px;
     background-color: white;

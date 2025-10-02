@@ -31,7 +31,8 @@ export class LoginPage {
     let sub = this.api.login({
       userName: this.username(),
       password: this.password()
-    }).subscribe({
+    })
+    .subscribe({
       next: response => {
         console.log(response);
         this.cookie.set("auth", JSON.stringify(response), 7);
@@ -49,7 +50,8 @@ export class LoginPage {
         window.open(url, "_blank");
         this.location.back();
       }
-    })
+    });
+    this.subs.push(sub);
   }
 
   @HostListener("document:keydown.enter", ["$event"])

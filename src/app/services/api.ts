@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { ApiResponse, LoginDto, LoginResponseDto } from "./models";
+import { ApiResponse, LoginDto, LoginResponseDto, ProductCategoryDto } from "./models";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 
@@ -9,7 +9,7 @@ export namespace Endpoints {
     }
 
     export namespace Product {
-        export const GetCategories = "/api/auth/login";
+        export const GetCategories = "/api/product/categories";
     }
 }
 
@@ -17,7 +17,7 @@ export namespace Endpoints {
     providedIn: "root"
 })
 export class ApiService {
-    apiHost: string = "https://localhost:7199";
+    private apiHost: string = "https://localhost:7199";
     
     constructor(
         protected http: HttpClient
@@ -25,5 +25,9 @@ export class ApiService {
 
     public login(dto: LoginDto) {
         return this.http.post(this.apiHost + Endpoints.Auth.Login, dto) as Observable<ApiResponse<LoginResponseDto>>;
+    }
+
+    public getProductCategories() {
+        return this.http.get(this.apiHost + Endpoints.Product.GetCategories) as Observable<ApiResponse<ProductCategoryDto[]>>;
     }
 }
