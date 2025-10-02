@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-navbar',
@@ -8,5 +9,12 @@ import { Router } from '@angular/router';
   styleUrl: './navbar.less'
 })
 export class Navbar {
-  constructor(protected router: Router){}
+  constructor(
+    protected router: Router,
+    protected cookie: CookieService
+  ) {}
+
+  ngOnInit() {
+    
+  }
 }
