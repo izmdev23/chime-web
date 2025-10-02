@@ -35,7 +35,7 @@ export class LoginPage {
     .subscribe({
       next: response => {
         console.log(response);
-        this.cookie.set("auth", JSON.stringify(response), 7);
+        this.cookie.set("auth", JSON.stringify(response.data), 7);
       },
       error: (err: HttpErrorResponse) => {
         if (err.status === 400) this.errorMessage.set("Some fields are missing");

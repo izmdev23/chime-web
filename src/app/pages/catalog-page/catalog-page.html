@@ -7,7 +7,12 @@
             }
         </div>
         <div class="container" id="contents">
-            <app-catalog-card name="Product 1" [price]="100" [salePrice]="40"/>
+            @for (product of products(); track product.id) {
+                <app-catalog-card 
+                [name]="product.name" 
+                [price]="product.price" 
+                [salePrice]="product.salePrice"/>
+            }
         </div>
     </div>
 </app-navbar-layout>

@@ -4,7 +4,7 @@ import { CatalogCard } from "@components/catalog-card/catalog-card";
 import { ApiService } from '@services/api';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
-import { ProductCategoryDto } from '@services/models';
+import { Product, ProductCategoryDto } from '@services/models';
 
 @Component({
   selector: 'app-catalog-page',
@@ -16,6 +16,7 @@ export class CatalogPage {
   private subs: Subscription[] = [];
 
   categories = signal<ProductCategoryDto[]>([]);
+  products = signal<Product[]>([]);
   
   constructor(
     private api: ApiService
@@ -35,7 +36,23 @@ export class CatalogPage {
 
       }
     });
+
+    let sub2 = this.api.getProducts(-1, 0, 30)
+    .subscribe({
+      next: response => {
+        console.log(response);
+        this.products.set(response.data);
+      },
+      error: (error: HttpErrorResponse) => {
+        console.error(error);
+      },
+      complete: () => {
+
+      }
+    })
+    
     this.subs.push(sub);
+    this.subs.push(sub2);
   }
 
   ngOnDestroy() {

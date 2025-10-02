@@ -1,7 +1,10 @@
 import { Injectable } from "@angular/core";
-import { ApiResponse, LoginDto, LoginResponseDto, ProductCategoryDto } from "./models";
+import { ApiResponse, LoginDto, LoginResponseDto, Product, ProductCategoryDto } from "./models";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
+import { CookieService } from "ngx-cookie-service";
+
+
 
 export namespace Endpoints {
     export namespace Auth {
@@ -10,6 +13,7 @@ export namespace Endpoints {
 
     export namespace Product {
         export const GetCategories = "/api/product/categories";
+        export const GetProducts = "/api/product/";
     }
 }
 
@@ -17,10 +21,12 @@ export namespace Endpoints {
     providedIn: "root"
 })
 export class ApiService {
+    private guidEmpty: string = "00000000-0000-0000-0000-000000000000";
     private apiHost: string = "https://localhost:7199";
     
     constructor(
-        protected http: HttpClient
+        protected http: HttpClient,
+        protected cookie: CookieService
     ) {}
 
     public login(dto: LoginDto) {
@@ -29,5 +35,17 @@ export class ApiService {
 
     public getProductCategories() {
         return this.http.get(this.apiHost + Endpoints.Product.GetCategories) as Observable<ApiResponse<ProductCategoryDto[]>>;
+    }
+
+    public getProducts(categoryId: number, start: number, end: number) {
+        let userId = this.guidEmpty;
+        if (this.cookie.check("auth")) {
+            let auth: LoginResponseDto = JSON.parse(this.cookie.get("auth"));
+            console.log(auth);
+            userId = auth.userId;
+        }
+        console.warn(Endpoints.Product.GetProducts + `${userId},${categoryId},${start},${end}`);
+        return this.http.get(this.apiHost + 
+            Endpoints.Product.GetProducts + `${userId},${categoryId},${start},${end}`) as Observable<ApiResponse<Product[]>>;
     }
 }
