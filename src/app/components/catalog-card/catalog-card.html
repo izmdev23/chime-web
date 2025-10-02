@@ -1,0 +1,15 @@
+<main class="--hover-card">
+    <div id="thumbnail-container">
+        @if (image) {
+            <p>has image</p>
+        }
+        @else {
+            <img id="thumbnail" src="/icons/package.svg">
+        }
+    </div>
+    <div id="contents">
+        <p id="name">{{name}}</p>
+        <p id="price">{{price}}</p>
+        <p id="sale-price">{{salePrice}}</p>
+    </div>
+</main>

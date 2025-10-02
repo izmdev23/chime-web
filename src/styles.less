@@ -1,1 +1,88 @@
-/* You can add global styles to this file, and also import other style files */
+@import (css) url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import "variables.less";
+
+* {
+    font-size: @font-size;
+    font-family: Roboto;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+
+    transition: @transition;
+}
+
+.--logo {
+    height: calc(@font-size * 2);
+}
+
+.--bold {
+    font-weight: @font-weight;
+}
+
+.--main {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.--input {
+    padding: 4px;
+    border: @border;
+
+    &:hover {
+        filter: brightness(0.9);
+    }
+
+    &:active {
+        filter: brightness(0.75);
+        border: 1px solid @background-color-primary;
+    }
+}
+
+.--button {
+    padding: 4px 8px;
+    background-color: white;
+    border: @border;
+
+    &:hover {
+        cursor: pointer;
+        filter: brightness(0.9);
+    }
+
+    &:active {
+        filter: brightness(0.75);
+    }
+}
+
+.--flat-button {
+    .--button();
+
+    background-color: #E0E0E0;
+    border: none;
+}
+
+.--accent-button {
+    .--button();
+
+    background-color: @background-color-primary;
+    border: none;
+}
+
+.--card {
+    background-color: white;
+    border: @border;
+}
+
+.--hover-card {
+    .--card();
+
+    &:hover {
+        border: 1px solid @background-color-primary;
+    }
+
+    &:active {
+        filter: @background-color-hover;
+        border: 1px solid @background-color-primary;
+    }
+}

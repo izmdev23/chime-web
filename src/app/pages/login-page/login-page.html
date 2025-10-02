@@ -1,0 +1,17 @@
+<main class="--main">
+    <div class="--card" id="container">
+        <div style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 16px;">
+            <div style="display: flex; gap: 8px; align-items: center;">
+                <img class="--logo" src="/icons/package.svg">
+                <h1>Chime</h1>
+            </div>
+            <p style="font-size: 1.2rem;">Login</p>
+        </div>
+        <input class="--input" type="text" id="username" placeholder="Username">
+        <input class="--input" type="password" id="password" placeholder="Password">
+        <div style="display: flex; gap: 4px;">
+            <button (click)="location.back()" style="flex: 1;" class="--flat-button" id="login-btn">Go Back</button>
+            <button style="flex: 1;" class="--accent-button" id="login-btn">Login</button>
+        </div>
+    </div>
+</main>
