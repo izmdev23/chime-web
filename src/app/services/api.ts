@@ -21,7 +21,7 @@ export namespace Endpoints {
     providedIn: "root"
 })
 export class ApiService {
-    private guidEmpty: string = "00000000-0000-0000-0000-000000000000";
+    public readonly guidEmpty: string = "00000000-0000-0000-0000-000000000000";
     private apiHost: string = "https://localhost:7199";
     
     constructor(
