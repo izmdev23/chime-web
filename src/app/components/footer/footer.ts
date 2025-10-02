@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Chrono } from '@core/chrono';
+import { Chrono } from 'src/app/services/chrono';
 
 @Component({
   selector: 'app-footer',

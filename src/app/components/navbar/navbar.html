@@ -7,5 +7,10 @@
         <p class="link">Discounts</p>
         <p class="link">Customer Service</p>
     </div>
-    <p class="link" (click)="router.navigate(['login'])">Login</p>
+    @if (cookie.check('auth')) {
+        <p class="link">My Account</p>
+    }
+    @else {
+        <p class="link" (click)="router.navigate(['login'])">Login</p>
+    }
 </nav>
