@@ -9,7 +9,15 @@
             <div id="head">
                 <div style="display: flex; flex-direction: column; gap: 16px;">
                     <p style="font-size: 1.25rem; font-weight: 500;">{{data.name}}</p>
-                    <p>{{data.rating}} stars</p>
+                    <div style="display: flex; gap: 16px;">
+                        <p>{{data.rating}} stars</p>
+                        @if (data.stock > 0) {
+                            <p>In Stock: {{data.stock}}</p>
+                        }
+                        @else {
+                            <p>Out of stock</p>
+                        }
+                    </div>
                     <div style="display: flex; gap: 16px; align-items: center;">
                         <p id="display-price">₱{{data.salePrice}}</p>
                         @if (hasDiscount()) {

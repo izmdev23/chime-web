@@ -26,6 +26,7 @@ export interface Product {
     saleStart: Date;
     saleEnd: Date;
     categoryId: number;
+    stock: number;
 }
 
 export interface ApiResponse<T> {

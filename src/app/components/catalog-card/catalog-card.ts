@@ -33,7 +33,8 @@ export class CatalogCard {
         rating: 0,
         saleStart: new Date(),
         saleEnd: new Date(),
-        categoryId: -1
+        categoryId: -1,
+        stock: 0
       }
     }
   }
@@ -45,7 +46,6 @@ export class CatalogCard {
   protected onClick() {
     if (this.isValid() === false) return;
     this.cache.set<Product>("@cache-product", this.data);
-    console.log(this.cache.get("@cache-product"));
     this.router.navigate(["product"]);
   }
 }
