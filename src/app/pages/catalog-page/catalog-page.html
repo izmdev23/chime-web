@@ -2,11 +2,14 @@
     <div style="display: flex; gap: 8px; margin: 32px 0px;">
         <div class="container" id="sidebar">
             <h1 style="margin-bottom: 8px;">Categories</h1>
-            <p>Accessories</p>
-            <p>Accessories</p>
+            @for (item of categories(); track item.id) {
+                <p class="--hover" style="width: fit-content;">{{item.name}}</p>
+            }
         </div>
         <div class="container" id="contents">
-            <app-catalog-card name="Product 1" [price]="100" [salePrice]="40"/>
+            @for (product of products(); track product.id) {
+                <app-catalog-card [data]="product"/>
+            }
         </div>
     </div>
 </app-navbar-layout>

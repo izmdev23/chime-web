@@ -1,0 +1,49 @@
+<app-navbar-layout>
+    <main>
+        
+        <div class="--card container">
+            <!-- <img id="image" src="" alt="product image"> -->
+            <div>
+                <div id="image"></div>
+            </div>
+            <div id="head">
+                <div style="display: flex; flex-direction: column; gap: 16px;">
+                    <p style="font-size: 1.25rem; font-weight: 500;">{{data.name}}</p>
+                    <div style="display: flex; gap: 16px;">
+                        <p>{{data.rating}} stars</p>
+                        @if (data.stock > 0) {
+                            <p>In Stock: {{data.stock}}</p>
+                        }
+                        @else {
+                            <p>Out of stock</p>
+                        }
+                    </div>
+                    <div style="display: flex; gap: 16px; align-items: center;">
+                        <p id="display-price">₱{{data.salePrice}}</p>
+                        @if (hasDiscount()) {
+                            <p id="full-price" style="text-decoration: line-through;">₱{{data.price}}</p>
+                        }
+                    </div>
+                    @if (hasDiscount()) {
+                        <p id="discount-data">Save up to around {{getDiscount()}}%</p>
+                    }
+                </div>
+                <div style="display: flex; justify-content: right;">
+                    <button class="--accent-button">Buy now</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="--card container" style="display: flex; gap: 16px; align-items: center;">
+            <div id="uploader-image"></div>
+            <p>Uploader Name</p>
+        </div>
+
+        <div class="--card container" style="display: flex; gap: 16px; align-items: center;">
+            <textarea id="description" readonly>
+                {{data.description}}
+            </textarea>
+        </div>
+
+    </main>
+</app-navbar-layout>

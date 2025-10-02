@@ -26,6 +26,10 @@
     width: 100%;
 }
 
+.--error {
+    color: @color-error;
+}
+
 .--input {
     padding: 4px;
     border: @border;
@@ -37,6 +41,18 @@
     &:active {
         filter: brightness(0.75);
         border: 1px solid @background-color-primary;
+    }
+}
+
+p.--hover {
+    &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+        color: @background-color-primary;
+    }
+
+    &:active {
+        filter: brightness(0.75);
     }
 }
 

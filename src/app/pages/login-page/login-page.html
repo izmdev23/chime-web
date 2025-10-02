@@ -7,11 +7,12 @@
             </div>
             <p style="font-size: 1.2rem;">Login</p>
         </div>
-        <input class="--input" type="text" id="username" placeholder="Username">
-        <input class="--input" type="password" id="password" placeholder="Password">
+        <input name="username" [(ngModel)]="username" class="--input" type="text" id="username" placeholder="Username">
+        <input class="--input" [(ngModel)]="password" type="password" id="password" placeholder="Password">
+        <p class="--error">{{errorMessage()}}</p>
         <div style="display: flex; gap: 4px;">
             <button (click)="location.back()" style="flex: 1;" class="--flat-button" id="login-btn">Go Back</button>
-            <button style="flex: 1;" class="--accent-button" id="login-btn">Login</button>
+            <button (click)="login()" style="flex: 1;" class="--accent-button" id="login-btn">Login</button>
         </div>
     </div>
 </main>

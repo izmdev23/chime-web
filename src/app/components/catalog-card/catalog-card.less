@@ -20,3 +20,18 @@ main {
     object-fit: contain;
     padding: 20%;
 }
+
+#contents {
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+#name {
+    display: -webkit-box; /* Required for -webkit-line-clamp */
+    -webkit-line-clamp: 2; /* Limits the text to 2 lines */
+    -webkit-box-orient: vertical; /* Stacks the lines vertically */
+    overflow: hidden; /* Hides any overflowing content */
+    text-overflow: ellipsis;
+}
