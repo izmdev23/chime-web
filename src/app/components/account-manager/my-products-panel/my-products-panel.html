@@ -1,0 +1,10 @@
+<main>
+    <div id="empty-products">
+        @if (products().length === 0) {
+            <div style="flex: 1; display: flex; align-items: center;">
+                <p>You have no products</p>
+            </div>
+        }
+        <app-upload-button id="upload-button"/>
+    </div>
+</main>

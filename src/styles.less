@@ -62,7 +62,7 @@ p.--hover {
 }
 
 .--button {
-    padding: 4px 8px;
+    padding: 8px 16px;
     background-color: white;
     border: @border;
 
@@ -76,10 +76,27 @@ p.--hover {
     }
 }
 
+select {
+    .--button();
+}
+
+option {
+    .--button();
+    outline: none;
+    border: none;
+}
+
 .--flat-button {
     .--button();
 
     background-color: #E0E0E0;
+    border: none;
+}
+
+.--transparent-button {
+    .--button();
+
+    background-color: transparent;
     border: none;
 }
 
@@ -106,4 +123,14 @@ p.--hover {
         filter: @background-color-hover;
         border: 1px solid @background-color-primary;
     }
+}
+
+textarea {
+    field-sizing: content;
+    width: 100%;
+    min-height: 10rem;
+    resize: none;
+    padding: 8px;
+    // pointer-events: none;
+    user-select: auto;
 }

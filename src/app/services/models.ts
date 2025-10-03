@@ -45,9 +45,21 @@ export interface User {
     lastName: string;
 }
 
+export interface ProductUploadDto {
+    Name: string;
+    Description: string;
+    Price: number;
+    ProductTypeId: number;
+    UploaderId: string;
+    StoreId: string;
+    SalePrice: number;
+    Images: File[];
+}
+
 export interface ApiResponse<T> {
     code: number;
     message: string;
     data: T;
 }
 
+export const EmptyGuid = "00000000-0000-0000-0000-000000000000";

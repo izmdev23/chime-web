@@ -1,0 +1,81 @@
+@if(previewPhoto() !== null) {
+    <div id="image-preview" style="position: fixed; top: 0; left: 0; z-index: 5;">
+        <div style="display: flex; align-items: center; justify-content: center; position: fixed; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.75);">
+            <img style="width: 70%; height: 70%; object-fit: contain;" id="preview-image" [src]="previewPhoto()?.image">
+        </div>
+        <div style="display: flex; gap: 8px; position: fixed; bottom: 32px; width: 100%; display: flex; justify-content: center; gap: 8px;">
+            <button (click)="deletePhoto(previewPhoto())" class="--accent-button">Delete</button>
+            <button (click)="previewPhoto.set(null)" class="--accent-button">Close</button>
+        </div>
+    </div>
+}
+
+<app-navbar-layout>
+    <main>
+        
+        <div style="display: flex; gap: 8px; width: 100%; padding: 0px 64px;">
+
+            <div class="--card" style="display: flex; flex-direction: column; gap: 16px; padding: 16px; height: fit-content;">
+                <h1>Images</h1>
+                
+                <div id="photos">
+                    @for (photo of selectedImages(); track $index) {
+                        <div style="position: relative;">
+                            <img [src]="photo.image" class="photo">
+                            <button (click)="onPreviewImage(photo)" class="--transparent-button preview-buttons">
+                                View
+                            </button>
+                        </div>
+                    }
+                    <label class="--button" id="input-photo-button">
+                        <img src="/icons/add-image.svg" width="24">
+                        <input (change)="onImageSelected($event)" type="file" accept=".png, .jpg, .jpeg" hidden multiple>
+                    </label>
+                    <button (click)="deleteAllImages()" class="--button" id="input-photo-button">
+                        <!-- <img src="/icons/add-image.svg" width="24"> -->
+                        <!-- <input (change)="onImageSelected($event)" type="file" accept=".png, .jpg, .jpeg" hidden multiple> -->
+                         Delete All
+                    </button>
+                </div>
+            </div>
+    
+            <div style="display: flex; flex-direction: column; gap: 8px; flex: 1;">
+                <div class="--card" style="padding: 16px;">
+                    <h1>Product Details</h1>
+                    <div style="margin: 16px 0px; width: 100%;">
+                        <p style="margin-bottom: 8px;">Name</p>
+                        <textarea [(ngModel)]="productName" style="min-height: 3rem;"></textarea>
+                    </div>
+                    <div style="margin: 16px 0px; width: 100%;">
+                        <p style="margin-bottom: 8px;">Description</p>
+                        <textarea [(ngModel)]="description" style="min-height: 3rem;"></textarea>
+                    </div>
+                </div>
+                <div>
+                    <h1 style="margin-bottom: 8px;">Product Details</h1>
+                    <div style="display: flex; gap: 8px;">
+                        <div class="--card" style="padding: 16px;">
+                            <p style="margin-bottom: 8px;">Category</p>
+                            <select (change)="setCategory($event)" class="--selection-box">
+                                <option selected disabled>Select Category</option>
+                                @for (cat of categories(); track $index) {
+                                    <option>{{cat.name}}</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="--card" style="padding: 16px;">
+                            <label for="price">Price</label>
+                            <input [(ngModel)]="price" id="price" class="--input" type="number">
+                        </div>
+                    </div>
+                    
+                </div>
+                <div style="display: flex; justify-content: right;">
+                    <button (click)="upload()" class="--accent-button">Upload</button>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+</app-navbar-layout>

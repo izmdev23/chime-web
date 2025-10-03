@@ -1,0 +1,12 @@
+@if (size === "large") {
+    <button (click)="navigateToUpload()" class="--accent-button" id="upload-button-large">
+        <p style="font-weight: 500; font-size: 1.4rem;">+</p>
+        <p>Upload</p>
+    </button>
+}
+@else {
+    <button (click)="navigateToUpload()" class="--accent-button" id="upload-button-small">
+        <p style="font-weight: 500; font-size: 1.4rem;">+</p>
+        <p>Upload</p>
+    </button>
+}

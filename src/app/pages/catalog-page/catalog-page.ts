@@ -5,10 +5,13 @@ import { ApiService } from '@services/api';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { Product, ProductCategoryDto } from '@services/models';
+import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+import { UploadButton } from "@components/button/upload-button/upload-button";
 
 @Component({
   selector: 'app-catalog-page',
-  imports: [NavbarLayout, CatalogCard],
+  imports: [NavbarLayout, CatalogCard, UploadButton],
   templateUrl: './catalog-page.html',
   styleUrl: './catalog-page.less'
 })
@@ -19,7 +22,9 @@ export class CatalogPage {
   products = signal<Product[]>([]);
   
   constructor(
-    private api: ApiService
+    private api: ApiService,
+    protected router: Router,
+    private cookie: CookieService
   ) {}
 
   ngOnInit() {
@@ -53,6 +58,15 @@ export class CatalogPage {
     
     this.subs.push(sub);
     this.subs.push(sub2);
+  }
+
+  navigateToUpload() {
+    if (this.cookie.check("auth") === false) {
+      this.router.navigate(["login"]);
+      return;
+    }
+
+    this.router.navigate(["upload"]);
   }
 
   ngOnDestroy() {

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { ApiResponse, LoginDto, LoginResponseDto, Product, ProductCategoryDto, SignUpDto, User } from "./models";
+import { ApiResponse, LoginDto, LoginResponseDto, Product, ProductCategoryDto, ProductUploadDto, SignUpDto, User } from "./models";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { CookieService } from "ngx-cookie-service";
@@ -16,6 +16,7 @@ export namespace Endpoints {
     export namespace Product {
         export const GetCategories = "/api/product/categories";
         export const GetProducts = "/api/product/";
+        export const UploadProduct = "/api/product/upload";
     }
 }
 
@@ -66,5 +67,26 @@ export class ApiService {
                 authorization: "Bearer " + auth.accessToken
             }
         }) as Observable<ApiResponse<User>>;
+    }
+
+    public uploadProduct(dto: ProductUploadDto) {
+        let formData = new FormData();
+
+        for(let method in dto) {
+            if (method === "Images") continue;
+            console.log(method, dto[method as keyof typeof dto]);
+            formData.append(method, dto[method as keyof typeof dto] as any);
+        }
+        formData.append("Images", dto.Images[0], dto.Images[0].name);
+        // return undefined;
+        if (this.cookie.check("auth") === false) {
+            return undefined;
+        }
+        let auth = JSON.parse(this.cookie.get("auth")) as LoginResponseDto;
+        return this.http.post(this.apiHost + Endpoints.Product.UploadProduct, formData, {
+            headers: {
+                authorization: "Bearer " + auth.accessToken
+            }
+        }) as Observable<ApiResponse<undefined>>;
     }
 }

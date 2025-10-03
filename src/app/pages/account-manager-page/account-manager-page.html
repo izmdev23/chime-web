@@ -4,14 +4,18 @@
         <aside class="--card container" style="display: flex; padding: 16px; flex-direction: column; gap: 8px; min-height: 128px;">
             <h1>Manage Account</h1>
             <div>
-                <p [style]="activePanel() === 'account-details'? 'color: #E65100' : 'color: black'" class="--hover">Account Details</p>
-                <p (click)="logout()" class="--hover">Logout</p>
+                @for (panel of panels; track $index) {
+                    <p (click)="goToPanel(panel)" [style]="activePanel() === panel? 'color: #E65100;' : 'color: black;'" class="--hover">{{panel}}</p>
+                }
             </div>
         </aside>
 
         <div class="--card container" id="panel">
-            @if (activePanel() === "account-details") {
+            @if (activePanel() === "Account Details") {
                 <app-account-details />
+            }
+            @else if (activePanel() === "My Products") {
+                <app-my-products-panel/>
             }
             @else {
                 <p>No data to show</p>
