@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { ApiResponse, LoginDto, LoginResponseDto, Product, ProductCategoryDto, SignUpDto } from "./models";
+import { ApiResponse, LoginDto, LoginResponseDto, Product, ProductCategoryDto, SignUpDto, User } from "./models";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { CookieService } from "ngx-cookie-service";
@@ -10,6 +10,7 @@ export namespace Endpoints {
     export namespace Auth {
         export const Login = "/api/auth/login";
         export const SignUp = "/api/auth/signup";
+        export const GetUser = "/api/auth/get-user";
     }
 
     export namespace Product {
@@ -53,5 +54,17 @@ export class ApiService {
     public signUp(dto: SignUpDto) {
         console.log("api.signup", dto);
         return this.http.post(this.apiHost + Endpoints.Auth.SignUp, dto) as Observable<ApiResponse<undefined>>;
+    }
+
+    public getUserData() {
+        if (this.cookie.check("auth") === false) {
+            return undefined;
+        }
+        let auth = JSON.parse(this.cookie.get("auth")) as LoginResponseDto;
+        return this.http.get(this.apiHost + Endpoints.Auth.GetUser, {
+            headers: {
+                authorization: "Bearer " + auth.accessToken
+            }
+        }) as Observable<ApiResponse<User>>;
     }
 }

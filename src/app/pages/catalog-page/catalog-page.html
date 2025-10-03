@@ -1,12 +1,12 @@
 <app-navbar-layout>
-    <div style="display: flex; gap: 8px; margin: 32px 0px;">
-        <div class="container" id="sidebar">
+    <div style="display: flex; gap: 8px; margin: 32px 0px; align-items: start;">
+        <div class="--card container" id="sidebar">
             <h1 style="margin-bottom: 8px;">Categories</h1>
             @for (item of categories(); track item.id) {
                 <p class="--hover" style="width: fit-content;">{{item.name}}</p>
             }
         </div>
-        <div class="container" id="contents">
+        <div class="--card container" id="contents">
             @for (product of products(); track product.id) {
                 <app-catalog-card [data]="product"/>
             }

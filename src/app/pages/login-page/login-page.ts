@@ -29,6 +29,14 @@ export class LoginPage {
   ) {}
 
   login() {
+    if (
+      this.username().length === 0 ||
+      this.password().length === 0
+    ) {
+      this.errorMessage.set("All fields must not be empty");
+      return;
+    }
+    
     let sub = this.api.login({
       userName: this.username(),
       password: this.password()
@@ -40,8 +48,10 @@ export class LoginPage {
       },
       error: (error: HttpErrorResponse) => {
         let err = error.error as ApiResponse<undefined>;
-        this.errorMessage.set(err.message)
+        this.errorMessage.set(err.message);
         console.error("failed to login", err);
+
+
       },
       complete: () => {
         console.log("Login completed");

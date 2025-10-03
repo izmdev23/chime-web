@@ -1,0 +1,42 @@
+<main>
+    <div>
+        <div style="margin-bottom: 32px;">
+            <h1 style="margin-bottom: 16px;">Personal Information</h1>
+            <div style="display: flex; gap: 8px;">
+                <div style="flex: 1;">
+                    <p style="margin-bottom: 8px;">First Name</p>
+                    <input class="--input" [(ngModel)]="firstName" [disabled]="!editMode()">
+                </div>
+                <div style="flex: 1;">
+                    <p style="margin-bottom: 8px;">Middle Name</p>
+                    <input class="--input" [(ngModel)]="middleName" [disabled]="!editMode()">
+                </div>
+                <div style="flex: 1;">
+                    <p style="margin-bottom: 8px;">Last Name</p>
+                    <input class="--input" [(ngModel)]="lastName" [disabled]="!editMode()">
+                </div>
+            </div>
+        </div>
+        <div  style="margin-bottom: 32px;">
+            <h1 style="margin-bottom: 16px;">Account Details</h1>
+            <div style="display: flex; gap: 8px;">
+                <div style="flex: 1;">
+                    <p style="margin-bottom: 8px;">Username</p>
+                    <input class="--input" [(ngModel)]="userName" [disabled]="!editMode()">
+                </div>
+                <div style="flex: 1;">
+                    <p style="margin-bottom: 8px;">Password</p>
+                    <input class="--input" [(ngModel)]="password" type="password" [disabled]="!editMode()">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="display: flex; justify-content: right; gap: 8px;">
+        @if (editMode()) {
+            <button id="edit-btn" class="--button">Save</button>
+        }
+        <button (click)="toggleEditMode()" id="edit-btn" class="--accent-button">
+            {{editMode()? "Cancel" : "Edit"}}
+        </button>
+    </div>
+</main>

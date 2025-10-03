@@ -37,6 +37,14 @@ export interface Product {
     stock: number;
 }
 
+export interface User {
+    userName: string;
+    role: string;
+    firstName: string;
+    middleName: string;
+    lastName: string;
+}
+
 export interface ApiResponse<T> {
     code: number;
     message: string;
