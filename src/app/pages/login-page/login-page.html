@@ -9,6 +9,7 @@
         </div>
         <input name="username" [(ngModel)]="username" class="--input" type="text" id="username" placeholder="Username">
         <input class="--input" [(ngModel)]="password" type="password" id="password" placeholder="Password">
+        <p (click)="router.navigate(['signup'])" class="--hover" style="width: fit-content;">Create Account</p>
         <p class="--error">{{errorMessage()}}</p>
         <div style="display: flex; gap: 4px;">
             <button (click)="location.back()" style="flex: 1;" class="--flat-button" id="login-btn">Go Back</button>

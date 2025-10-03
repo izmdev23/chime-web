@@ -4,6 +4,7 @@ import { Component, HostListener, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from '@services/api';
+import { ApiResponse } from '@services/models';
 import { CookieService } from 'ngx-cookie-service';
 import { Subscription } from 'rxjs';
 
@@ -37,9 +38,9 @@ export class LoginPage {
         console.log(response);
         this.cookie.set("auth", JSON.stringify(response.data), 7);
       },
-      error: (err: HttpErrorResponse) => {
-        if (err.status === 400) this.errorMessage.set("Some fields are missing");
-        if (err.status === 401) this.errorMessage.set("Incorrect login credentials");
+      error: (error: HttpErrorResponse) => {
+        let err = error.error as ApiResponse<undefined>;
+        this.errorMessage.set(err.message)
         console.error("failed to login", err);
       },
       complete: () => {

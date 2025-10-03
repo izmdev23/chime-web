@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { ApiResponse, LoginDto, LoginResponseDto, Product, ProductCategoryDto } from "./models";
+import { ApiResponse, LoginDto, LoginResponseDto, Product, ProductCategoryDto, SignUpDto } from "./models";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { CookieService } from "ngx-cookie-service";
@@ -9,6 +9,7 @@ import { CookieService } from "ngx-cookie-service";
 export namespace Endpoints {
     export namespace Auth {
         export const Login = "/api/auth/login";
+        export const SignUp = "/api/auth/signup";
     }
 
     export namespace Product {
@@ -47,5 +48,10 @@ export class ApiService {
         console.warn(Endpoints.Product.GetProducts + `${userId},${categoryId},${start},${end}`);
         return this.http.get(this.apiHost + 
             Endpoints.Product.GetProducts + `${userId},${categoryId},${start},${end}`) as Observable<ApiResponse<Product[]>>;
+    }
+
+    public signUp(dto: SignUpDto) {
+        console.log("api.signup", dto);
+        return this.http.post(this.apiHost + Endpoints.Auth.SignUp, dto) as Observable<ApiResponse<undefined>>;
     }
 }

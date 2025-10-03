@@ -14,6 +14,14 @@ export interface ProductCategoryDto {
     name: string;
 }
 
+export interface SignUpDto {
+    username: string;
+    password: string;
+    firstName: string;
+    middleName: string;
+    lastName: string;
+}
+
 export interface Product {
     id: string;
     storeId: string;
@@ -34,3 +42,4 @@ export interface ApiResponse<T> {
     message: string;
     data: T;
 }
+

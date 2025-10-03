@@ -1,0 +1,33 @@
+<main>
+
+    <div class="--card" id="card">
+        <div style="display: flex; gap: 8px; align-items: center;">
+            <img src="/icons/package.svg" class="--logo">
+            <h1>Create Account</h1>
+        </div>
+
+        @if (step() <= 0) {
+            <p>Personal Information</p>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <input [(ngModel)]="firstName" class="--input" placeholder="First Name">
+                <input [(ngModel)]="middleName" class="--input" placeholder="Middle Name">
+                <input [(ngModel)]="lastName" class="--input" placeholder="Last Name">
+            </div>
+        }
+        @else if (step() === 1) {
+            <p>Account Details</p>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <input [(ngModel)]="username" class="--input" placeholder="Username">
+                <input [(ngModel)]="password" type="password" class="--input" placeholder="Password">
+            </div>
+        }
+
+        <p class="--error">{{errorMessage()}}</p>
+        <div style="display: flex; gap: 8px;">
+            <button (click)="prevStep()" style="flex: 1;" class="--button">Go Back</button>
+            <button (click)="nextStep()" style="flex: 1;" class="--accent-button">Next</button>
+        </div>
+    </div>
+
+    
+</main>
