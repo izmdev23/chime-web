@@ -46,6 +46,10 @@ export class CatalogCard {
   protected onClick() {
     if (this.isValid() === false) return;
     this.cache.set<Product>("@cache-product", this.data);
-    this.router.navigate(["product"]);
+    this.router.navigate(["product"], {
+      queryParams: {
+        prodId: this.data.id
+      }
+    });
   }
 }

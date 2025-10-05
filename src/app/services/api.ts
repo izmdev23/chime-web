@@ -17,6 +17,9 @@ export namespace Endpoints {
     export namespace Product {
         export const GetCategories = "/api/product/categories";
         export const GetProducts = "/api/product/";
+        export function getProduct(productId: string) {
+            return `/api/product/${productId}`;
+        }
         export const UploadProduct = "/api/product/upload";
         export const AddProductVariant = "/api/product/add-prod-variant";
         export function getProductVariant(productId: string): string;
@@ -82,9 +85,12 @@ export class ApiService {
             console.log(auth);
             userId = auth.userId;
         }
-        console.warn(Endpoints.Product.GetProducts + `${userId},${categoryId},${start},${end}`);
         return this.http.get(this.apiHost + 
             Endpoints.Product.GetProducts + `${userId},${categoryId},${start},${end}`) as Observable<ApiResponse<Product[]>>;
+    }
+
+    public getProduct(productId: string) {
+        return this.http.get(this.apiHost + Endpoints.Product.getProduct(productId)) as Observable<ApiResponse<Product>>;
     }
 
     public signUp(dto: SignUpDto) {

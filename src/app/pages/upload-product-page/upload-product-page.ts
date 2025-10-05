@@ -232,6 +232,7 @@ export class UploadProductPage {
     formData.append("ProductTypeId", cat.id.toString());
     formData.append("SalePrice", this.productForm.get("price")!.value);
     formData.append("UploaderId", authString.userId);
+    formData.append("Stock", this.productForm.get("stock")!.value);
     formData.append("StoreId", EmptyGuid);
 
     for(const img of this.images.controls) {
