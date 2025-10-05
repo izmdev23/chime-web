@@ -33,8 +33,8 @@ export interface Product {
     rating: number;
     saleStart: Date;
     saleEnd: Date;
-    categoryId: number;
     stock: number;
+    categoryId: number;
 }
 
 export interface User {
@@ -54,6 +54,12 @@ export interface ProductUploadDto {
     StoreId: string;
     SalePrice: number;
     Images: File[];
+}
+
+export interface ProductVariant {
+    id: string;
+    name: string;
+    productId: string;
 }
 
 export interface ApiResponse<T> {

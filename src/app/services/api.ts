@@ -1,8 +1,9 @@
 import { Injectable } from "@angular/core";
-import { ApiResponse, LoginDto, LoginResponseDto, Product, ProductCategoryDto, ProductUploadDto, SignUpDto, User } from "./models";
+import { ApiResponse, LoginDto, LoginResponseDto, Product, ProductCategoryDto, ProductUploadDto, ProductVariant, SignUpDto, User } from "./models";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { CookieService } from "ngx-cookie-service";
+import { SecureService } from "./security";
 
 
 
@@ -17,6 +18,27 @@ export namespace Endpoints {
         export const GetCategories = "/api/product/categories";
         export const GetProducts = "/api/product/";
         export const UploadProduct = "/api/product/upload";
+        export const AddProductVariant = "/api/product/add-prod-variant";
+        export function getProductVariant(productId: string): string;
+        export function getProductVariant(productId: string, variantId: string): string;
+        
+        export function getProductVariant(prodId: string, variantId?: string): string {
+            let baseRoute = `/api/product/${prodId}/variants`;
+            if (variantId !== undefined) {
+                return baseRoute + `/${variantId}`;
+            }
+            else{
+                return baseRoute;
+            }
+        }
+    }
+
+    export namespace File {
+        export const UploadProductImage = "/api/files/upload/product-image";
+    }
+    
+    export namespace Test {
+        export const TestUploadImage = "/api/Test/test-upload-image";
     }
 }
 
@@ -29,7 +51,8 @@ export class ApiService {
     
     constructor(
         protected http: HttpClient,
-        protected cookie: CookieService
+        protected cookie: CookieService,
+        protected secure: SecureService
     ) {}
 
     public login(dto: LoginDto) {
@@ -39,6 +62,18 @@ export class ApiService {
     public getProductCategories() {
         return this.http.get(this.apiHost + Endpoints.Product.GetCategories) as Observable<ApiResponse<ProductCategoryDto[]>>;
     }
+
+    // public getProduct(categoryId: number, start: number, end: number) {
+    //     let userId = this.guidEmpty;
+    //     if (this.cookie.check("auth")) {
+    //         let auth: LoginResponseDto = JSON.parse(this.cookie.get("auth"));
+    //         console.log(auth);
+    //         userId = auth.userId;
+    //     }
+    //     console.warn(Endpoints.Product.GetProducts + `${userId},${categoryId},${start},${end}`);
+    //     return this.http.get(this.apiHost + 
+    //         Endpoints.Product.GetProducts + `${userId},${categoryId},${start},${end}`) as Observable<ApiResponse<Product[]>>;
+    // }
 
     public getProducts(categoryId: number, start: number, end: number) {
         let userId = this.guidEmpty;
@@ -69,24 +104,38 @@ export class ApiService {
         }) as Observable<ApiResponse<User>>;
     }
 
-    public uploadProduct(dto: ProductUploadDto) {
-        let formData = new FormData();
-
-        for(let method in dto) {
-            if (method === "Images") continue;
-            console.log(method, dto[method as keyof typeof dto]);
-            formData.append(method, dto[method as keyof typeof dto] as any);
-        }
-        formData.append("Images", dto.Images[0], dto.Images[0].name);
-        // return undefined;
-        if (this.cookie.check("auth") === false) {
-            return undefined;
-        }
+    public uploadProduct(data: FormData) {
         let auth = JSON.parse(this.cookie.get("auth")) as LoginResponseDto;
-        return this.http.post(this.apiHost + Endpoints.Product.UploadProduct, formData, {
+        return this.http.post(this.apiHost + Endpoints.Product.UploadProduct, data, {
+            headers: {
+                authorization: "Bearer " + auth.accessToken
+            }
+        }) as Observable<ApiResponse<Product>>;
+    }
+
+    public addProductVariant(form: FormData) {
+        let auth = this.secure.getAuthString();
+        if (auth === undefined) return undefined;
+        return this.http.post(this.apiHost + Endpoints.Product.AddProductVariant, form, {
             headers: {
                 authorization: "Bearer " + auth.accessToken
             }
         }) as Observable<ApiResponse<undefined>>;
+    }
+
+    public uploadProductImage(form: FormData) {
+        let auth = JSON.parse(this.cookie.get("auth")) as LoginResponseDto;
+        return this.http.post(this.apiHost + Endpoints.File.UploadProductImage, form, {
+            headers: {
+                authorization: "Bearer " + auth.accessToken
+            }
+        }) as Observable<ApiResponse<Product>>;
+    }
+
+    public getProductVariants(productId: string): Observable<ApiResponse<ProductVariant[]>> {
+        return this.http.get<ApiResponse<ProductVariant[]>>(this.apiHost + Endpoints.Product.getProductVariant(productId));
+    }
+    public getProductVariant(productId: string, variantId: string): Observable<ApiResponse<ProductVariant>> {
+        return this.http.get<ApiResponse<ProductVariant>>(this.apiHost + Endpoints.Product.getProductVariant(productId, variantId));
     }
 }

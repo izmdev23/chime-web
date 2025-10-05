@@ -30,17 +30,24 @@
     color: @color-error;
 }
 
+.--flex {
+    flex: 1;
+}
+
 .--input {
-    padding: 4px;
-    border: @border;
+    border-radius: 4px;
+    padding: 8px;
+    border: none;
+    background-color: @color-bg-primary;
+    filter: brightness(0.95);
 
     &:hover {
-        filter: brightness(0.9);
+        filter: brightness(0.85);
     }
 
     &:active {
-        filter: brightness(0.75);
-        border: 1px solid @background-color-primary;
+        filter: brightness(0.7);
+        // border: 1px solid @color-bg-primary;
     }
 
     &:disabled {
@@ -62,22 +69,43 @@ p.--hover {
 }
 
 .--button {
-    padding: 8px 16px;
-    background-color: white;
-    border: @border;
+    padding: 8px;
+    border-radius: 4px;
+    border: none;
 
     &:hover {
         cursor: pointer;
-        filter: brightness(0.9);
+        filter: brightness(0.85);
     }
 
     &:active {
-        filter: brightness(0.75);
+        filter: brightness(0.7);
+    }
+    &:disabled {
+        padding: 8px;
+        background-color: white;
+        border-radius: 4px;
+        border: none;
+        filter: brightness(0.95);
+        cursor: auto
     }
 }
 
 select {
     .--button();
+}
+
+select .depth2 {
+    .--button();
+    filter: brightness(0.9);
+    &:hover {
+        cursor: pointer;
+        filter: brightness(0.85);
+    }
+
+    &:active {
+        filter: brightness(0.7);
+    }
 }
 
 option {
@@ -88,9 +116,7 @@ option {
 
 .--flat-button {
     .--button();
-
-    background-color: #E0E0E0;
-    border: none;
+    filter: brightness(0.9);
 }
 
 .--transparent-button {
@@ -102,13 +128,19 @@ option {
 
 .--accent-button {
     .--button();
+    background-color: @color-accent-primary;
+}
 
-    background-color: @background-color-primary;
-    border: none;
+.--error-button {
+    .--button();
+
+    background-color: @color-button-error;
+    color: white;
 }
 
 .--card {
     background-color: white;
+    border-radius: 8px;
     border: @border;
 }
 
@@ -133,4 +165,8 @@ textarea {
     padding: 8px;
     // pointer-events: none;
     user-select: auto;
+}
+
+.--error {
+    color: @color-font-error;
 }

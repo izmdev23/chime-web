@@ -1,0 +1,10 @@
+@if (_visible()) {
+    <div class="main">
+        <div style="padding: 0px 16px;">
+            <ng-content></ng-content>
+        </div>
+        <button (click)="hide()" style="background-color: inherit; border: none; padding: 16px;">
+            <p style="color: white;">Close</p>
+        </button>
+    </div>
+}

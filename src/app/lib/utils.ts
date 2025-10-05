@@ -9,4 +9,16 @@ export namespace Utils {
         let rate = 1 - ratio;
         return Math.round(rate * 100);
     }
+
+    export function fileToImage(imageFile: File) {
+        const reader = new FileReader();
+        reader.onload = () => {
+
+        }
+        // reader.readAsDataURL()
+    }
+
+    // export getAuthString() {
+    //     let auth = JSON.parse(this.cookie.get("auth")) as LoginResponseDto;
+    // }
 }
