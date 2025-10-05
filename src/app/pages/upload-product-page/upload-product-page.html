@@ -127,7 +127,7 @@
                             <div style="display: flex; gap: 16px;">
                                 <label class="--accent-button" style="flex: 1;">
                                     Add Image
-                                    <input multiple type="file" accept=".png, .jpg, .jpeg" (change)="onImageSelected($event)" hidden>
+                                    <input multiple type="file" accept=".png, .jpg, .jpeg, .webp" (change)="onImageSelected($event)" hidden>
                                 </label>
                                 <button class="--button" [disabled]="images.controls.length === 0" (click)="images.clear()">Delete All</button>
                             </div>
