@@ -2,7 +2,7 @@ import { HttpErrorResponse, HttpResourceFn } from '@angular/common/http';
 import { Component, signal, WritableSignal } from '@angular/core';
 import { NavbarLayout } from "@layouts/navbar-layout/navbar-layout";
 import { ApiService } from '@services/api';
-import { EmptyGuid, LoginResponseDto, ProductCategoryDto, ProductUploadDto } from '@services/models';
+import { EmptyGuid, LoginResponseDto, ProductCategoryDto, ProductUploadDto } from '@lib/models';
 import { Subscription } from 'rxjs';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
 import { CookieService } from 'ngx-cookie-service';
@@ -210,6 +210,61 @@ export class UploadProductPage {
     invalid ||= this.productForm.get("category")!.invalid;
     invalid ||= this.productForm.get("stock")!.invalid;
     invalid ||= this.isVariantsInvalid();
+    
+    if (invalid) {
+      console.log("Some fields in product details are invalid");
+    }
+
+    // at least one variant must be created
+    if (this.variants.controls.length === 0) {
+      console.error("Must provide at least one variant");
+      invalid = true;
+    }
+
+    for(const variant of this.variants.controls) {
+      const variantValue = variant.value().name;
+      if (variantValue === null) {
+        console.error("A variant has an invalid name");
+        invalid = true;
+        break;
+      }
+      
+      if (variant.value().name!.length === 0) {
+        console.error("A variant has an empty name");
+        invalid = true;
+        break;
+      }
+    }
+
+    // all images must be binded with a variant
+    for(const img of this.images.controls) {
+      // BUG - TODO:
+      // when an image is binded to a variant and the user decides to change the name of the variant
+      // the inner value of the variantOf of the image is not updated and retains old values even
+      // the ui appears to update
+      
+      // check if the name of the variant matches in the variant list
+      if (this.variants.controls.find(e => e.value().name == img.value.forVariant) === undefined) {
+        console.error(`Please update the variant of image ${img.value.file?.name}.`, "This is a bug and will be adddressed in the future");
+        img.value.forVariant = "";
+        invalid = true;
+        continue;
+      }
+      
+      let imgVariant = img.value.forVariant;
+      if (imgVariant === null) {
+        console.error("Please bind all images to a variant");
+        invalid = true;
+        break;
+      }
+      if (imgVariant.length === 0) {
+        console.error(`Readd image ${img.value.file?.name} because variant is invalid`);
+        invalid = true;
+        break;
+      }
+      
+    }
+
     if (invalid) {
       // this._hasError.set(true);
       console.error("Some fields in the form are invalid. Cannot upload product.");

@@ -4,13 +4,31 @@
         <p class="--bold">Chime</p>
     </div>
     <div id="links">
-        <p class="link">Discounts</p>
-        <p class="link">Customer Service</p>
+        <button class="--button nav-button">Discounts</button>
+        <button class="--button nav-button">Customer Service</button>
     </div>
-    @if (cookie.check('auth')) {
-        <p (click)="router.navigate(['manage-account'])" class="link">My Account</p>
-    }
-    @else {
-        <p class="link" (click)="router.navigate(['login'])">Login</p>
-    }
+    <div style="display: flex;">
+
+        <div id="searchbox-container">
+            <input class="--input" type="text" placeholder="Search" id="search-box" style="border-radius: 0px;">
+            <button class="--flat-button" id="searchbox-button" style="border-top-left-radius: 0; border-bottom-left-radius: 0;">Search</button>
+        </div>
+        
+        <button class="--button nav-button" (click)="router.navigate(['cart'])">
+            <img class="nav-icon" src="/icons/cart.svg">
+        </button>
+        @if (cookie.check('auth')) {
+            <button (click)="router.navigate(['manage-account'])" class="--button nav-button">
+                <img class="nav-icon" src="/icons/profile.svg">
+                <p (click)="router.navigate(['manage-account'])" class="link">{{name()}}</p>
+            </button>
+        }
+        @else {
+            <button (click)="router.navigate(['login'])" class="--button nav-button">
+                <img class="nav-icon" src="/icons/profile.svg">
+                <p class="link" (click)="router.navigate(['login'])">Login</p>
+            </button>
+        }
+
+    </div>
 </nav>

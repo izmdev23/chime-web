@@ -1,1 +1,8 @@
-<router-outlet/>
+<main>
+    @if (hasError()) {
+        <div id="error-box">
+            {{errorMessage()}}
+        </div>
+    }
+    <router-outlet/>
+</main>

@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, signal, WritableSignal } from '@angular/core';
 import { ApiService } from '@services/api';
-import { User } from '@services/models';
+import { User } from '@lib/models';
 import { Subscription } from 'rxjs';
 import { FormsModule } from "@angular/forms";
 

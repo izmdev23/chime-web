@@ -1,16 +1,31 @@
 <app-navbar-layout>
-    <div style="display: flex; gap: 8px; margin: 32px 0px; align-items: start;">
-        <div class="--card container" id="sidebar">
-            <h1 style="margin-bottom: 8px;">Categories</h1>
-            @for (item of categories(); track item.id) {
-                <p class="--hover" style="width: fit-content;">{{item.name}}</p>
-            }
+    <main>
+        <div class="--card container">
+            <div style="width: 256px;">
+                <app-dropdown-box title="Category" [list]="categoriesStringList()" (onItemSelected)="categoriesSelected($event)" id="categories-list"/>
+            </div>            
         </div>
-        <div class="--card container" id="contents">
-            @for (product of products(); track product.id) {
-                <app-catalog-card [data]="product"/>
-            }
+        <div style="padding: 0px 16px;">
+            <div style="height: 3rem; display: flex; gap: 8px;">
+                @if(selectedCategories().length > 0) {
+                    <p style="margin-bottom: 16px; height: 1rem;">Selected Categories</p>
+                    <p style="margin-bottom: 16px; height: 1rem;">></p>
+                    <div style="display: flex; gap: 4px;">
+                        @for (cat of selectedCategories(); track $index) {
+                            <p>{{cat}}</p>
+                        }
+                    </div>
+                }
+            </div>
+
+            <div id="content-container">
+                @for (product of products(); track product.id) {
+                    <app-catalog-card [data]="product"/>
+                }
+            </div>
+            
         </div>
-    </div>
+        
+    </main>
     <app-upload-button size="large" style="position: fixed; bottom: 32px; right: 32px;"/>
 </app-navbar-layout>

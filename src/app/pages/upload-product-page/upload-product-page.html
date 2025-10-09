@@ -114,9 +114,13 @@
                                         <img [src]="image.value.image" style="width: 64px; object-fit: cover;" (click)="previewImage.set(image.value.image)">
                                         <div style="flex: 1;">
                                             <select [(ngModel)]="image.value.forVariant" style="width: 100%;" [ngModelOptions]="{standalone: true}">
-                                                <option selected>No Variant</option>
+                                                @if(variants.controls.length === 0) {
+                                                    <option selected disabled>No Variant</option>
+                                                }
                                                 @for (variant of variants.controls; track trackIndex(variant)) {
-                                                    <option>{{variant.value().name}}</option>
+                                                    @if(variant.value().name !== null || variant.value().name?.length !== 0) {
+                                                        <option>{{variant.value().name}}</option>
+                                                    }
                                                 }
                                             </select>
                                         </div>

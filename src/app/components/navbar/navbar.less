@@ -5,10 +5,9 @@ nav {
     justify-content: space-between;
     
     width: 100%;
-    height: calc(@font-size * 3);
-    padding: 0px 8px;
+    height: 64px;
+    padding: 14px 8px;
 
-    border: @border;
 }
 
 #links {
@@ -17,19 +16,28 @@ nav {
     height: 100%;
 }
 
-.link {
-    padding: 0px 24px;    
-    height: 100%;
+#searchbox-container {
+    border: @border;
+    display: flex; margin-right: 32px; border-radius: 8px; overflow: hidden;
+}
+
+#search-box {
+    background-color: #FAFAFA;
+    padding: 16px;
+    border: none;
+    border-radius: 99px;
+    outline: none;
+}
+
+.nav-icon {
+    height: 1.5rem;
+}
+
+.nav-button {
     display: flex;
     align-items: center;
-    background-color: white;
-
-    &:hover {
-        cursor: pointer;
-        filter: @background-color-hover;
-    }
-
-    &:active {
-        filter: @background-color-active;
-    }
+    justify-content: center;
+    height: 100%;
+    border-radius: 0px;
+    padding: 8px 16px
 }

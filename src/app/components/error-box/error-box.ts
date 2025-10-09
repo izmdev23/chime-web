@@ -9,6 +9,7 @@ import { Component, Input, signal, SimpleChanges } from '@angular/core';
 export class ErrorBox {
   protected _visible = signal(false);
   
+  @Input() onClose: () => void = this._onError;
   
   @Input()
   set visible(value: boolean) {
@@ -27,5 +28,9 @@ export class ErrorBox {
 
   protected hide() {
     this.visible = false;
+  }
+
+  protected _onError(): void {
+
   }
 }

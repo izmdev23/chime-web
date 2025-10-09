@@ -4,7 +4,7 @@ import { Component, HostListener, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from '@services/api';
-import { ApiResponse } from '@services/models';
+import { ApiResponse } from '@lib/models';
 import { CookieService } from 'ngx-cookie-service';
 import { Subscription } from 'rxjs';
 

@@ -1,57 +1,55 @@
 <app-navbar-layout>
     <main>
         
-        <div class="--card container">
-            <!-- <img id="image" src="" alt="product image"> -->
-            <div>
-                <div id="image"></div>
-            </div>
-            <div id="head">
-                <div style="display: flex; flex-direction: column; gap: 16px;">
-                    <p style="font-size: 1.25rem; font-weight: 500;">{{data().name}}</p>
-                    <div style="display: flex; gap: 16px;">
-                        <p>{{data().rating}} stars</p>
-                        @if (data() !== undefined && data().stock > 0) {
-                            <p>In Stock: {{data().stock}}</p>
-                        }
-                        @else {
-                            <p>Out of stock</p>
-                        }
-                    </div>
-                    <div style="display: flex; gap: 16px; align-items: center;">
-                        <p id="display-price">₱{{data().salePrice}}</p>
-                        @if (hasDiscount()) {
-                            <p id="full-price" style="text-decoration: line-through;">₱{{data().price}}</p>
-                        }
-                    </div>
-                    @if (hasDiscount()) {
-                        <p id="discount-data">Save up to around {{getDiscount()}}%</p>
+        <div id="main-container" style="flex: 1;">
+            <div id="image-container">
+                <img [src]="currentShownImage()" id="preview-image">
+                <div id="variant-container">
+                    @for (img of variantImages(); track $index) {
+                        <img [src]="img" class="--button variant-image" (click)="showImage(img)">
                     }
                 </div>
-                <div id="variant-container">
+            </div>
+    
+            <div id="content-container" style="flex: 0.75; height: 100%; justify-content: space-between;">
+                <div style="display: flex; flex-direction: column; height: 100%; gap: 8px;">
+                    <div style="display: flex; gap: 8px;">
+                        <p>Rating</p><p>{{data().rating}} stars</p>
+                    </div>
+                    <p style="font-size: 2rem;">{{data().name}}</p>
+                    <h1 style="margin: 32px 0px; font-size: 2.5rem;" id="full-price">₱{{data().price.toLocaleString()}}</h1>
+    
                     @if (variants().length === 0) {
                         <div>This product has no variants</div>
                     }
-                    @for (variant of variants(); track $index) {
-                        <button class="--flat-button" style="margin-right: 8px; padding-left: 16px; padding-right: 16px; display: inline;">
-                            <p>{{variant.name}}</p>
-                        </button>
+                    @else {
+                        <p>Variants</p>
                     }
+                    <div>
+                        @for (variant of variants(); track $index) {
+                            <button class="--flat-button" style="margin-right: 8px; padding-left: 16px; padding-right: 16px; display: inline;">
+                                <p>{{variant.name}}</p>
+                            </button>
+                        }
+                    </div>
                 </div>
-                <div style="display: flex; justify-content: right;">
-                    <button class="--accent-button">Buy now</button>
+                <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+                    <button style="width: 100%;" class="--flat-button">Add to Cart</button>
+                    <button style="width: 100%;" class="--accent-button">Buy</button>
                 </div>
+                
+            </div>
+
+            <div style="flex: 0.75; height: 100%; display: flex; flex-direction: column;">
+                <h1 style="font-size: 2rem; margin-bottom: 8px;">Description</h1>
+                <textarea disabled id="description">{{data().description}}</textarea>
             </div>
         </div>
-
-        <div class="--card container" style="display: flex; gap: 16px; align-items: center;">
-            <div id="uploader-image"></div>
-            <p>Uploader Name</p>
-        </div>
-
-        <div class="--card container" style="display: flex; gap: 16px; align-items: center;">
-            <textarea id="description" readonly>{{data().description}}</textarea>
-        </div>
+        
+        
+        
 
     </main>
 </app-navbar-layout>
+
+

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { CookieService } from "ngx-cookie-service";
-import { LoginResponseDto } from "./models";
+import { LoginResponseDto } from "../lib/models";
 
 @Injectable({
     providedIn: "root"

@@ -5,6 +5,7 @@ import { CatalogPage } from '@pages/catalog-page/catalog-page';
 import { LoginPage } from '@pages/login-page/login-page';
 import { SignupPage } from '@pages/signup-page/signup-page';
 import { UploadProductPage } from '@pages/upload-product-page/upload-product-page';
+import { CartPage } from '@pages/cart-page/cart-page';
 
 export const routes: Routes = [
     {
@@ -35,5 +36,9 @@ export const routes: Routes = [
     {
         path: "upload",
         component: UploadProductPage
+    },
+    {
+        path: "cart",
+        component: CartPage
     }
 ];

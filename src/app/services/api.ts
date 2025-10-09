@@ -1,14 +1,18 @@
 import { Injectable } from "@angular/core";
-import { ApiResponse, LoginDto, LoginResponseDto, Product, ProductCategoryDto, ProductUploadDto, ProductVariant, SignUpDto, User } from "./models";
+import { ApiResponse, LoginDto, LoginResponseDto, Product, ProductCategoryDto, ProductVariant, SignUpDto, User } from "../lib/models";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { CookieService } from "ngx-cookie-service";
 import { SecureService } from "./security";
+import { Utils } from "@lib/utils";
 
 
 
 export namespace Endpoints {
     export namespace Auth {
+        export function ping() {
+            return "/api/auth/ping";
+        }
         export const Login = "/api/auth/login";
         export const SignUp = "/api/auth/signup";
         export const GetUser = "/api/auth/get-user";
@@ -22,9 +26,16 @@ export namespace Endpoints {
         }
         export const UploadProduct = "/api/product/upload";
         export const AddProductVariant = "/api/product/add-prod-variant";
+        export function getProductVariantImages(productId: string, variantId: string) {
+            return `/api/product/${productId},${variantId}/image`;
+        }
+
+        export function uploadProductImage() {
+            return "/api/files/upload/product-image";
+        }
+
         export function getProductVariant(productId: string): string;
         export function getProductVariant(productId: string, variantId: string): string;
-        
         export function getProductVariant(prodId: string, variantId?: string): string {
             let baseRoute = `/api/product/${prodId}/variants`;
             if (variantId !== undefined) {
@@ -49,8 +60,13 @@ export namespace Endpoints {
     providedIn: "root"
 })
 export class ApiService {
-    public readonly guidEmpty: string = "00000000-0000-0000-0000-000000000000";
-    private apiHost: string = "https://localhost:7199";
+    private networkHost: string = "192.168.1.16"
+    private networkPort: string = "5000"
+    private apiHost: string = `http://${this.networkHost}:${this.networkPort}`;
+    
+    public get ApiHost() {
+        return this.apiHost;
+    }
     
     constructor(
         protected http: HttpClient,
@@ -58,6 +74,10 @@ export class ApiService {
         protected secure: SecureService
     ) {}
 
+    public ping() {
+        return this.http.get(this.apiHost + Endpoints.Auth.ping()) as Observable<ApiResponse<null>>;
+    }
+    
     public login(dto: LoginDto) {
         return this.http.post(this.apiHost + Endpoints.Auth.Login, dto) as Observable<ApiResponse<LoginResponseDto>>;
     }
@@ -79,7 +99,7 @@ export class ApiService {
     // }
 
     public getProducts(categoryId: number, start: number, end: number) {
-        let userId = this.guidEmpty;
+        let userId = Utils.Guid.EMPTY;
         if (this.cookie.check("auth")) {
             let auth: LoginResponseDto = JSON.parse(this.cookie.get("auth"));
             console.log(auth);
@@ -131,7 +151,7 @@ export class ApiService {
 
     public uploadProductImage(form: FormData) {
         let auth = JSON.parse(this.cookie.get("auth")) as LoginResponseDto;
-        return this.http.post(this.apiHost + Endpoints.File.UploadProductImage, form, {
+        return this.http.post(this.apiHost + Endpoints.Product.uploadProductImage(), form, {
             headers: {
                 authorization: "Bearer " + auth.accessToken
             }
@@ -143,5 +163,9 @@ export class ApiService {
     }
     public getProductVariant(productId: string, variantId: string): Observable<ApiResponse<ProductVariant>> {
         return this.http.get<ApiResponse<ProductVariant>>(this.apiHost + Endpoints.Product.getProductVariant(productId, variantId));
+    }
+
+    public getProductVariantImages(productId: string, variantId: string): Observable<ApiResponse<string[]>> {
+        return this.http.get<ApiResponse<string[]>>(this.apiHost + Endpoints.Product.getProductVariantImages(productId, variantId));
     }
 }

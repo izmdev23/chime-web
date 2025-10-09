@@ -18,7 +18,7 @@ export namespace Utils {
         // reader.readAsDataURL()
     }
 
-    // export getAuthString() {
-    //     let auth = JSON.parse(this.cookie.get("auth")) as LoginResponseDto;
-    // }
+    export namespace Guid {
+        export const EMPTY = "00000000-0000-0000-0000-000000000000";
+    }
 }
