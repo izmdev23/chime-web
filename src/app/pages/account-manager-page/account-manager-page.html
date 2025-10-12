@@ -1,12 +1,17 @@
 <app-navbar-layout>
     <main>
         
-        <aside class="--card container" style="display: flex; padding: 16px; flex-direction: column; gap: 8px; min-height: 128px;">
-            <h1>Manage Account</h1>
+        <aside>
             <div>
-                @for (panel of panels; track $index) {
-                    <p (click)="goToPanel(panel)" [style]="activePanel() === panel? 'color: #E65100;' : 'color: black;'" class="--hover">{{panel}}</p>
-                }
+                <h1 style="margin-bottom: 8px;">Manage Account</h1>
+                <app-dropdown-box title="My Account" style="margin-bottom: 16px;">
+                    <button (click)="goToPanel('Account Details')" class="--button nav-button">Account Details</button>
+                    <button (click)="goToPanel('Logout')" class="--button nav-button">Logout</button>
+                </app-dropdown-box>
+                <app-dropdown-box title="My Shops">
+                    <button (click)="goToPanel('Managed Shops')" class="--disabled-button nav-button">Managed Shops</button>
+                    <button (click)="goToPanel('Products')" class="--button nav-button">Products</button>
+                </app-dropdown-box>
             </div>
         </aside>
 

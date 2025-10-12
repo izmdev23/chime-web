@@ -21,4 +21,8 @@ export namespace Utils {
     export namespace Guid {
         export const EMPTY = "00000000-0000-0000-0000-000000000000";
     }
+
+    export function toCurrency(value: number): string {
+        return `₱${value}`;
+    }
 }

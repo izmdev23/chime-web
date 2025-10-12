@@ -1,11 +1,11 @@
 import { Injectable } from "@angular/core";
-import { ApiResponse, LoginDto, LoginResponseDto, Product, ProductCategoryDto, ProductVariant, SignUpDto, User } from "../lib/models";
-import { HttpClient } from "@angular/common/http";
+import { ApiResponse, CartItem, LoginDto, LoginResponseDto, Product, ProductCategory, ProductUploadDto, ProductVariant, ProductVariantDto, SignUpDto, User } from "@lib/models";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { CookieService } from "ngx-cookie-service";
 import { SecureService } from "./security";
 import { Utils } from "@lib/utils";
-
+import { AddCartItemDto } from "@lib/dto";
 
 
 export namespace Endpoints {
@@ -30,10 +30,18 @@ export namespace Endpoints {
             return `/api/product/${productId},${variantId}/image`;
         }
 
+        export function addCartItem() {
+            return `/api/product/caritems/add`;
+        }
+
         export function uploadProductImage() {
             return "/api/files/upload/product-image";
         }
 
+        export function getCartItems(userId: string) {
+            return `/api/product/cartitems/${userId}`;
+        }
+        
         export function getProductVariant(productId: string): string;
         export function getProductVariant(productId: string, variantId: string): string;
         export function getProductVariant(prodId: string, variantId?: string): string {
@@ -60,12 +68,13 @@ export namespace Endpoints {
     providedIn: "root"
 })
 export class ApiService {
-    private networkHost: string = "192.168.1.16"
-    private networkPort: string = "5000"
-    private apiHost: string = `http://${this.networkHost}:${this.networkPort}`;
+    private _host: string = "192.168.1.16"
+    private _port: string = "5000"
+    private _protocol: string = "http"
+    private _address: string = `${this._protocol}://${this._host}:${this._port}`;
     
-    public get ApiHost() {
-        return this.apiHost;
+    public get address() {
+        return this._address;
     }
     
     constructor(
@@ -74,16 +83,25 @@ export class ApiService {
         protected secure: SecureService
     ) {}
 
+    ngOnInit() {
+        let environment = process.env["RUNTIME"];
+        if (environment === undefined) {
+            console.warn(`RUNTIME is undefined in env file. Your API endpoint will run in ${this.address}`);
+            return;
+        }
+        
+    }
+
     public ping() {
-        return this.http.get(this.apiHost + Endpoints.Auth.ping()) as Observable<ApiResponse<null>>;
+        return this.http.get(this._address + Endpoints.Auth.ping()) as Observable<ApiResponse<null>>;
     }
     
     public login(dto: LoginDto) {
-        return this.http.post(this.apiHost + Endpoints.Auth.Login, dto) as Observable<ApiResponse<LoginResponseDto>>;
+        return this.http.post(this._address + Endpoints.Auth.Login, dto) as Observable<ApiResponse<LoginResponseDto>>;
     }
 
     public getProductCategories() {
-        return this.http.get(this.apiHost + Endpoints.Product.GetCategories) as Observable<ApiResponse<ProductCategoryDto[]>>;
+        return this.http.get(this._address + Endpoints.Product.GetCategories) as Observable<ApiResponse<ProductCategory[]>>;
     }
 
     // public getProduct(categoryId: number, start: number, end: number) {
@@ -102,20 +120,19 @@ export class ApiService {
         let userId = Utils.Guid.EMPTY;
         if (this.cookie.check("auth")) {
             let auth: LoginResponseDto = JSON.parse(this.cookie.get("auth"));
-            console.log(auth);
             userId = auth.userId;
         }
-        return this.http.get(this.apiHost + 
+        return this.http.get(this._address + 
             Endpoints.Product.GetProducts + `${userId},${categoryId},${start},${end}`) as Observable<ApiResponse<Product[]>>;
     }
 
     public getProduct(productId: string) {
-        return this.http.get(this.apiHost + Endpoints.Product.getProduct(productId)) as Observable<ApiResponse<Product>>;
+        return this.http.get(this._address + Endpoints.Product.getProduct(productId)) as Observable<ApiResponse<Product>>;
     }
 
     public signUp(dto: SignUpDto) {
         console.log("api.signup", dto);
-        return this.http.post(this.apiHost + Endpoints.Auth.SignUp, dto) as Observable<ApiResponse<undefined>>;
+        return this.http.post(this._address + Endpoints.Auth.SignUp, dto) as Observable<ApiResponse<undefined>>;
     }
 
     public getUserData() {
@@ -123,26 +140,27 @@ export class ApiService {
             return undefined;
         }
         let auth = JSON.parse(this.cookie.get("auth")) as LoginResponseDto;
-        return this.http.get(this.apiHost + Endpoints.Auth.GetUser, {
+        return this.http.get(this._address + Endpoints.Auth.GetUser, {
             headers: {
                 authorization: "Bearer " + auth.accessToken
             }
         }) as Observable<ApiResponse<User>>;
     }
 
-    public uploadProduct(data: FormData) {
+    public uploadProduct(dto: ProductUploadDto) {
+        console.log(dto);
         let auth = JSON.parse(this.cookie.get("auth")) as LoginResponseDto;
-        return this.http.post(this.apiHost + Endpoints.Product.UploadProduct, data, {
+        return this.http.post(this._address + Endpoints.Product.UploadProduct, dto, {
             headers: {
                 authorization: "Bearer " + auth.accessToken
             }
         }) as Observable<ApiResponse<Product>>;
     }
 
-    public addProductVariant(form: FormData) {
+    public addProductVariant(form: ProductVariantDto) {
         let auth = this.secure.getAuthString();
         if (auth === undefined) return undefined;
-        return this.http.post(this.apiHost + Endpoints.Product.AddProductVariant, form, {
+        return this.http.post(this._address + Endpoints.Product.AddProductVariant, form, {
             headers: {
                 authorization: "Bearer " + auth.accessToken
             }
@@ -151,7 +169,7 @@ export class ApiService {
 
     public uploadProductImage(form: FormData) {
         let auth = JSON.parse(this.cookie.get("auth")) as LoginResponseDto;
-        return this.http.post(this.apiHost + Endpoints.Product.uploadProductImage(), form, {
+        return this.http.post(this._address + Endpoints.Product.uploadProductImage(), form, {
             headers: {
                 authorization: "Bearer " + auth.accessToken
             }
@@ -159,13 +177,35 @@ export class ApiService {
     }
 
     public getProductVariants(productId: string): Observable<ApiResponse<ProductVariant[]>> {
-        return this.http.get<ApiResponse<ProductVariant[]>>(this.apiHost + Endpoints.Product.getProductVariant(productId));
+        return this.http.get<ApiResponse<ProductVariant[]>>(this._address + Endpoints.Product.getProductVariant(productId));
     }
     public getProductVariant(productId: string, variantId: string): Observable<ApiResponse<ProductVariant>> {
-        return this.http.get<ApiResponse<ProductVariant>>(this.apiHost + Endpoints.Product.getProductVariant(productId, variantId));
+        return this.http.get<ApiResponse<ProductVariant>>(this._address + Endpoints.Product.getProductVariant(productId, variantId));
     }
 
     public getProductVariantImages(productId: string, variantId: string): Observable<ApiResponse<string[]>> {
-        return this.http.get<ApiResponse<string[]>>(this.apiHost + Endpoints.Product.getProductVariantImages(productId, variantId));
+        return this.http.get<ApiResponse<string[]>>(this._address + Endpoints.Product.getProductVariantImages(productId, variantId));
     }
+
+    public getCartItems(userId: string) {
+        let auth = this.secure.getAuthString();
+        if (auth === undefined) return undefined;
+        const headers = new HttpHeaders({
+            "Authorization": "Bearer " + auth.accessToken
+        })
+        
+        return this.http.get<ApiResponse<CartItem[]>>(this.address + Endpoints.Product.getCartItems(userId));
+    }
+
+    public addCartItem(dto: AddCartItemDto): Observable<ApiResponse<CartItem>> | undefined {
+        let auth = this.secure.getAuthString();
+        if (auth === undefined) return undefined;
+        const headers = new HttpHeaders({
+            "Authorization": "Bearer " + auth.accessToken
+        })
+        return this.http.post<ApiResponse<CartItem>>(this.address + Endpoints.Product.addCartItem(), dto, {
+            headers: headers
+        });
+    }
+    
 }

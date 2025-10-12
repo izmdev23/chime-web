@@ -1,73 +1,7 @@
 @import "variables.less";
 
-@grid-size: 128px;
-
 main {
-    margin: 32px;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-
+    background-color: red;
     width: 100%;
-}
-
-.container {
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-#varaint-container {
-    display: flex;
-    flex-direction: column;
-}
-
-.variant {
-    border-radius: 4px;
-    overflow: hidden;
-    background-color: @color-bg-primary;
-    display: flex;
-}
-
-.variant-label {
-    background-color: @color-accent-primary;
-}
-
-#preview-image {
-    width: 300px;
-    height: 300px;
-    object-fit: contain;
-    background-color: @color-bg-primary;
-}
-
-#image-container {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;    
-}
-
-.product-image {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-
-    padding: 8px;
-    background-color: @color-bg-primary;
-    filter: brightness(0.9);
-
-    border-radius: 4px;
-    overflow: hidden;
-
-    img {
-        &:hover {
-            filter: brightness(0.8);
-            cursor: pointer;
-        }
-        &:active {
-            filter: brightness(0.7);
-        }
-    }
+    height: 100%;
 }

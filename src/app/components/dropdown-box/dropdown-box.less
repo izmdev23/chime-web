@@ -1,7 +1,23 @@
+@import "variables.less";
+
+main {
+    min-width: 200px;
+}
+
+.popup-open {
+    animation: swipedown @animation-speed;
+    animation-timing-function: @animation-ease-out;
+}
+
+.popup-close {
+    animation: swipedown @animation-speed reverse;
+    animation-timing-function: @animation-ease-in;
+}
+
 #dropdown {
     display: flex;
     flex-direction: column;
-    padding-left: 16px;
+    padding-left: 8px;
 }
 
 #open-btn {
@@ -17,4 +33,14 @@
 #delete-btn-icon {
     height: 1rem;
     width: fit-content;
+}
+
+#bar-indicator {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 2px;
+    background-color: @color-accent-primary;
+    z-index: 1;
 }

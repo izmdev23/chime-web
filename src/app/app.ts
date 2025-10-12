@@ -25,9 +25,9 @@ export class App {
   
   ngOnInit() {
     // load environment variables
-    dotnev.config({
-        path: "./secrets/.env",
-    })
+    // dotnev.config({
+    //     path: "./secrets/.env",
+    // })
     
     this.connectServer();
   }
@@ -35,12 +35,12 @@ export class App {
   private connectServer() {
     this.hasError.set(true);
     this.errorMessage.set("Connecting to server...");
-    console.log("Connecting to server...");
+    console.warn("Connecting to server...");
     this.api.ping().subscribe({
       error: () => {
         this.hasError.set(true);
         this.errorMessage.set("Cannot connect to server");
-        console.error("Server is down");
+        console.error("Cannot connect to server " + this.api.address);
         setTimeout(this.connectServer, 5000);
       },
       complete: () => {

@@ -1,4 +1,4 @@
-import { Product } from "@lib/models";
+import { Product, ProductVariant } from "@lib/models";
 import { Utils } from "./utils";
 
 export namespace Enums {
@@ -11,16 +11,34 @@ export namespace Enums {
                 uploaderId: Utils.Guid.EMPTY,
                 name: "",
                 description: "",
-                price: -1,
-                salePrice: -1,
-                rating: -1,
-                saleStart: new Date(),
-                saleEnd: new Date(),
                 categoryId: -1,
-                stock: -1
+            }
+
+            export const VARIANT: ProductVariant = {
+                id: Utils.Guid.EMPTY,
+                name: "",
+                productId: "",
+                price: -1,
+                rating: 0,
+                saleEnd: new Date(),
+                salePrice: -1,
+                saleStart: new Date(),
+                stock: 0,
             }
         }
 
+    }
+
+    export namespace Errors {
+        export const InvalidQuantityError = "InvalidQuantityError";
+        export const InvalidVariantError = "InvalidVariantError";
+    }
+
+    export namespace Logging {
+        export enum ErrorDestination {
+            console,
+            file
+        }
     }
     
     

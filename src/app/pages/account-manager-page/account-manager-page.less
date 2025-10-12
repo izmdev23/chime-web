@@ -6,8 +6,6 @@ main {
     
     display: flex;
     gap: 8px;
-    justify-content: center;
-    align-items: start;
 }
 
 #panel {
@@ -15,4 +13,20 @@ main {
     width: 512px;
     min-height: @min-height-account-manager-panel;
     position: relative;
+}
+
+aside {
+    padding: 0px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    div {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.nav-button {
+    text-align: left;
 }

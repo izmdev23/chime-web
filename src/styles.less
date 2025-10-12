@@ -3,7 +3,7 @@
 
 * {
     font-size: @font-size;
-    font-family: Roboto;
+    font-family: "Roboto", "Arial" ;
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -120,6 +120,13 @@ option {
     filter: brightness(0.9);
 }
 
+.--disabled-button {
+    .--button();
+    filter: brightness(0.9);
+    color: rgba(0, 0, 0, 0.4);
+    pointer-events: none
+}
+
 .--transparent-button {
     .--button();
 
@@ -170,4 +177,16 @@ textarea {
 
 .--error {
     color: @color-font-error;
+}
+
+
+// animations
+.--anim-fade-in {
+    animation: fadein @animation-speed;
+    animation-timing-function: @animation-ease-out;
+}
+
+.--anim-fade-in {
+    animation: fadeout @animation-speed reverse;
+    animation-timing-function: @animation-ease-in;
 }

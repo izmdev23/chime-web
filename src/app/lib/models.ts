@@ -9,7 +9,7 @@ export interface LoginResponseDto {
     refreshToken: string;
 }
 
-export interface ProductCategoryDto {
+export interface ProductCategory {
     id: number;
     name: string;
 }
@@ -28,12 +28,6 @@ export interface Product {
     uploaderId: string;
     name: string;
     description: string;
-    price: number;
-    salePrice: number;
-    rating: number;
-    saleStart: Date;
-    saleEnd: Date;
-    stock: number;
     categoryId: number;
 }
 
@@ -46,21 +40,46 @@ export interface User {
 }
 
 export interface ProductUploadDto {
-    Name: string;
-    Description: string;
-    Price: number;
-    ProductTypeId: number;
-    UploaderId: string;
-    StoreId: string;
-    SalePrice: number;
-    Images: File[];
+    name: string;
+    description: string;
+    productTypeId: number;
+    uploaderId: string;
+    storeId: string;
+}
+
+export interface ProductVariantDto {
+    name: string;
+    price: number;
+    rating: number;
+    saleEnd: Date;
+    saleStart: Date;
+    salePrice: number;
+    stock: number;
 }
 
 export interface ProductVariant {
     id: string;
     name: string;
     productId: string;
+    price: number;
+    rating: number;
+    saleEnd: Date;
+    saleStart: Date;
+    salePrice: number;
+    stock: number;
 }
+
+export interface CartItem {
+    id: string;
+    variantId: string;
+    userId: string;
+    dateAdded: string;
+    productId: string;
+    quantity: number;
+    images: string[]
+}
+
+
 
 export interface ApiResponse<T> {
     code: number;

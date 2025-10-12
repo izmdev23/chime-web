@@ -1,18 +1,21 @@
-<div>
+<main>
     <div style="display: flex; flex-direction: row; margin-bottom: 16px;">
-        <button (click)="onClick()" id="open-btn" style="text-align: left; flex: 1;" class="--button">{{displayText()}}</button>
-        @if (hasItemSelected()) {
-            <button (click)="onClick()" id="delete-btn" style="text-align: left;" class="--button" (click)="removeSelected()">
-                <img src="/icons/trash.svg" id="delete-btn-icon">
-            </button>
+        <button (click)="onClick()" id="open-btn" style="text-align: left; flex: 1;" [class]="'--button ' + classList">{{displayText()}}</button>
+    </div>
+    <div style="overflow: hidden; position: relative;">
+        <div id="bar-indicator"
+        animate.enter="popup-open"
+        animate.leave="popup-close"></div>
+        @if (isOpened()) {
+            <div 
+            animate.enter="popup-open"
+            animate.leave="popup-close"
+            id="dropdown">
+                <!-- @for (item of itemList(); track $index) {
+                    <button style="text-align: left; width: 100%;" class="--button" (click)="_onItemSelected(item)">{{item}}</button>
+                } -->
+                <ng-content></ng-content>
+            </div>
         }
     </div>
-    @if (isOpened()) {
-        <div id="dropdown" style="width: 100%; display: flex; flex-direction: column; gap: 8px;">
-            @for (item of selectedItem(); track $index) {
-                <button style="text-align: left; width: 100%;" [class]="`${item[1]? '--flat-button' : '--button'}`" (click)="_onItemSelected(item[0])">{{item[0]}}</button>
-            }
-        </div>
-    }
-    
-</div>
+</main>

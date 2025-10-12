@@ -58,7 +58,7 @@ export class LoginPage {
         const url = this.router.serializeUrl(
           this.router.createUrlTree(["/catalog"])
         );
-        window.open(url, "_blank");
+        // window.open(url, "_blank");
         this.location.back();
       }
     });

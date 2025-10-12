@@ -1,1 +1,76 @@
-<p>cart-page works!</p>
+<app-navbar-layout>
+    <main>
+        <div id="browser">
+            <div id="cart-table-header">
+                <h1 style="font-size: 1.5rem;">Product</h1>
+                <div class="cart-item-cell">Price</div>
+                <div class="cart-item-cell">Quantity</div>
+                <div class="cart-item-cell">Total Price</div>
+            </div>
+            @for (item of cartItems(); track $index) {
+                <div class="cart-item-container">
+                    <div class="item-info-cell" style="height: 128px;">
+                        <img [src]="`${api.address}/${item.images[0]}`" class="item-image">
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <h1>{{items().get(item.productId)?.name}}</h1>
+                            <div>
+                                <p style="font-style: italic;">{{getVariant(item)}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cart-item-cell">
+                        <!-- <p>₱{{items().get(item.productId) ? items().get(item.productId)?.price?.toLocaleString() : null}}</p> -->
+                    </div>
+                    <div class="cart-item-cell quantity-cell">
+                        <button (click)="decreaseQuantity(item)" class="--flat-button">-</button>
+                        <p style="flex: 1; text-align: center;">{{item.quantity}}</p>
+                        <button (click)="increaseQuantity(item)" class="--flat-button">+</button>
+                    </div>
+                    <!-- <p class="cart-item-cell quantity-cell price">{{util.toCurrency(util.getTotalPrice(items().get(item.productId), item))}}</p> -->
+                </div>
+            }
+        </div>
+        <div style="width: 20%; display: flex; flex-direction: column; gap: 16px;">
+            <div class="--card" style="padding: 16px; height: fit-content;">
+                <div>
+                    <h1>Shipping Cost</h1>
+                    <div style="display: flex; justify-content: space-between; padding: 16px 0;">
+                        <p>Country</p>
+                        <p>Philippines</p>
+                    </div>
+                </div>
+                <div>
+                    <h1>Coupons</h1>
+                    <div style="display: flex; justify-content: space-between; padding: 16px 0;">
+                        <p>None</p>
+                    </div>
+                </div>
+            </div>
+            <div class="--card" style="padding: 16px; height: fit-content;">
+                <h1 style="margin-bottom: 16px;">Cart Total</h1>
+                <div style="display: flex; flex-direction: column; gap: 4px;">
+                    <div style="display: flex; justify-content: space-between;">
+                        <p>Subtotal</p>
+                        <p>{{util.toCurrency(getSubtotal())}}</p>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <p>Chime Discounts</p>
+                        <p>0</p>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <p>Coupons</p>
+                        <p>0</p>
+                    </div>
+                    <div style="margin: 8px 0;" class="--card"></div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <h1>Total</h1>
+                        <p>{{util.toCurrency(getTotal())}}</p>
+                    </div>
+                </div>
+
+            </div>
+            <button class="--accent-button">Confirm Purchase</button>
+
+        </div>
+    </main>
+</app-navbar-layout>
