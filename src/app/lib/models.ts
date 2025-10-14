@@ -55,6 +55,7 @@ export interface ProductVariantDto {
     saleStart: Date;
     salePrice: number;
     stock: number;
+    productId: string;
 }
 
 export interface ProductVariant {
@@ -79,12 +80,24 @@ export interface CartItem {
     images: string[]
 }
 
-
+export interface Image {
+    id: string;
+    file: File | null;
+    image: string | ArrayBuffer | null;
+    variantId: string;
+}
 
 export interface ApiResponse<T> {
+    this: any;
     code: number;
     message: string;
     data: T;
+}
+
+export interface ErrorData {
+    code: number;
+    message: string;
+    type: "log" | "warning" | "error" | "success"
 }
 
 export const EmptyGuid = "00000000-0000-0000-0000-000000000000";

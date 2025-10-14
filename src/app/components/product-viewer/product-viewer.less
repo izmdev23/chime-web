@@ -1,0 +1,69 @@
+@import "variables.less";
+
+main {
+    display: flex;
+    height: 100%;
+}
+
+.image-button {
+    max-width: 128px;
+    max-height: 128px;
+    padding: 0;
+}
+
+#preview-image {
+    height: 100%;
+    max-height: 70%;
+    width: 100%;
+    object-fit: contain;
+}
+
+#gallery {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(64px, 1fr));
+    grid-template-rows: repeat(auto-fit, minmax(64px, 64px));
+    gap: 8px;
+    overflow-y: auto;
+    width: 100%;
+}
+
+#content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+#title {
+    font-size: 1.5rem;
+    width: 70%;
+    min-height: 6rem;
+}
+
+.star {
+    height: 1rem;
+    width: 1rem;
+}
+
+#price {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: @color-font-accent;
+    max-width: 512px;
+}
+
+.variant {
+    display: flex; 
+    height: 3rem; 
+    min-width: 64px;
+    max-width: 128px;
+    align-items: center;
+    background-color: @color-bg-secondary;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+#description {
+    background-color: @color-bg-primary;
+    margin: 16px 0 0 0;
+}

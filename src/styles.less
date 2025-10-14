@@ -40,6 +40,7 @@
     border: none;
     background-color: @color-bg-primary;
     filter: brightness(0.95);
+    width: 100%;
 
     &:hover {
         filter: brightness(0.85);
@@ -94,6 +95,8 @@ p.--hover {
 
 select {
     .--button();
+    width: 100%;
+    background-color: @color-bg-secondary;
 }
 
 select .depth2 {
@@ -113,6 +116,32 @@ option {
     .--button();
     outline: none;
     border: none;
+}
+
+p.--title {
+    font-size: 1.2rem;
+}
+
+p.--title-v2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+p.--title-v3 {
+    font-size: 1.3rem;
+}
+
+p.--text-disabled {
+    color: rgba(0, 0, 0, 0.4);
+}
+
+.--disabled {
+    filter: brightness(0.9);
+    color: rgba(0, 0, 0, 0.4);
+    pointer-events: none;
+    background-color: @color-bg-primary;
+    padding: 8px;
+    border-radius: 8px
 }
 
 .--flat-button {
@@ -178,6 +207,24 @@ textarea {
 .--error {
     color: @color-font-error;
 }
+
+
+// system
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: @color-bg-secondary;
+    border-radius: 999px;
+}
+
+
+
 
 
 // animations

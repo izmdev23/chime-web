@@ -11,8 +11,13 @@ export class UtilityService {
   }
   
   toCurrency(value: number | undefined | null): string {
-    if (value === undefined || value === null) return "Unavailable";
-    if (value < 0) return "Unavailable"
-      return `₱${value.toLocaleString()}`;
+    if (value === undefined || value === null) return "Price Unavailable";
+    if (value < 0) return "Price Unavailable";
+    if (value === Number.NaN) return "Price Unavailable";
+    return `₱${value.toLocaleString()}`;
+  }
+
+  getRating(value: number) {
+    return 0;
   }
 }

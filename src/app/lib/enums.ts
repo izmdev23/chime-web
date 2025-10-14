@@ -11,17 +11,17 @@ export namespace Enums {
                 uploaderId: Utils.Guid.EMPTY,
                 name: "",
                 description: "",
-                categoryId: -1,
+                categoryId: 0,
             }
 
             export const VARIANT: ProductVariant = {
                 id: Utils.Guid.EMPTY,
                 name: "",
                 productId: "",
-                price: -1,
+                price: 0,
                 rating: 0,
                 saleEnd: new Date(),
-                salePrice: -1,
+                salePrice: 0,
                 saleStart: new Date(),
                 stock: 0,
             }

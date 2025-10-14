@@ -1,5 +1,7 @@
-<main style="padding-bottom: 128px;">
-    <app-navbar style="width: 100%; padding-bottom: 24px; z-index: 4;"/>
-    <ng-content style="width: 100%;"/>
+<main>
+    <app-navbar style="width: 100%; z-index: 4;"/>
+    <div id="content">
+        <ng-content/>
+    </div>
     <!-- <app-footer style="width: 100%;"/> -->
 </main>

@@ -2,24 +2,29 @@
 
 main {
     width: 100%;
-    height: @min-height-account-manager-panel;
-    padding: 16px;
-}
-
-#empty-products {
-    display: flex; 
-    align-items: center; 
-    justify-content: center;
-    flex-direction: column;
-
+    padding: 8px;
     height: 100%;
-    
-    position: relative;
+
+    display: flex;
+    flex-direction: column;
 }
 
-#upload-button {
-    position: absolute;
-    bottom: 0;
-    right: 0;
+#my-products {
+    flex: 1;
+}
 
+#from-my-shop {
+    flex: 1;
+}
+
+
+.container {
+    padding: 16px;
+    border-radius: 8px;
+}
+
+.add-button {
+    padding: 4px 16px;
+    border-radius: 8px;
+    font-size: 1.3rem;
 }

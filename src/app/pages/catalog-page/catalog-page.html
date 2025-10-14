@@ -2,7 +2,7 @@
     <main>
         <div class="--card container">
             <div style="width: 256px;">
-                <app-dropdown-box title="Category" [list]="categoriesStringList()" (onItemSelected)="categoriesSelected($event)" id="categories-list"/>
+                <app-dropdown-box title="Category" [list]="categoriesStringList()" (onItemSelected)="categoriesSelected([])" id="categories-list"/>
             </div>            
         </div>
         <div style="padding: 0px 16px; width: 100%;">

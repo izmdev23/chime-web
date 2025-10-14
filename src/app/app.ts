@@ -1,14 +1,15 @@
-import { Component, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, effect, NgZone, signal, SimpleChanges } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ApiService } from '@services/api';
-import { LoginResponseDto } from '@lib/models';
+import { ErrorData, LoginResponseDto } from '@lib/models';
 import { CookieService } from 'ngx-cookie-service';
-import { ErrorBox } from "@components/error-box/error-box";
-import dotnev from "dotenv";
+import { ErrorPanel } from "@components/error-panel/error-panel";
+import { LogService } from '@services/logger';
+import { v4 as uuidv4 } from "uuid";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, ErrorBox],
+  imports: [RouterOutlet, ErrorPanel],
   templateUrl: './app.html',
   styleUrl: './app.less'
 })
@@ -18,19 +19,43 @@ export class App {
   protected readonly errorMessage = signal("");
   protected readonly connectedToServer = signal(false);
 
+  protected errors$ = signal<Map<string, ErrorData>>(new Map());
+
   constructor(
     private cookie: CookieService,
-    private api: ApiService
+    private api: ApiService,
+    protected logger: LogService,
+    protected cdr: ChangeDetectorRef
   ) {}
   
   ngOnInit() {
-    // load environment variables
-    // dotnev.config({
-    //     path: "./secrets/.env",
-    // })
-    
+    this.logger.onError.subscribe({
+      next: (err) => {
+        console.log("Emit", err);
+        const assignedId = uuidv4();
+        setTimeout(() => {
+          this.errors$.update(val => {
+            val.delete(assignedId);
+            return val;
+          })
+        }, 5000);
+        this.errors$.update(val => {
+          val.set(assignedId, err);
+          return val;
+        })
+      }
+    })
     this.connectServer();
   }
+
+  ngOnChanges(changes: SimpleChanges) {
+    console.log("Change");
+    if (changes["errors"]) {
+      console.log(changes["errors"].currentValue);
+    }
+  }
+
+
 
   private connectServer() {
     this.hasError.set(true);

@@ -4,8 +4,8 @@ import { AccountManagerPage } from '@pages/account-manager-page/account-manager-
 import { CatalogPage } from '@pages/catalog-page/catalog-page';
 import { LoginPage } from '@pages/login-page/login-page';
 import { SignupPage } from '@pages/signup-page/signup-page';
-import { UploadProductPage } from '@pages/upload-product-page/upload-product-page';
 import { CartPage } from '@pages/cart-page/cart-page';
+import { ProductEditorPage } from '@pages/product-editor-page/product-editor-page';
 
 export const routes: Routes = [
     {
@@ -35,10 +35,15 @@ export const routes: Routes = [
     },
     {
         path: "upload",
-        component: UploadProductPage
+        redirectTo: "product-editor",
+        pathMatch: "full"
     },
     {
         path: "cart",
         component: CartPage
+    },
+    {
+        path: "product-editor",
+        component: ProductEditorPage
     }
 ];

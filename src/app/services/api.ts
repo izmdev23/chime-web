@@ -84,11 +84,11 @@ export class ApiService {
     ) {}
 
     ngOnInit() {
-        let environment = process.env["RUNTIME"];
-        if (environment === undefined) {
-            console.warn(`RUNTIME is undefined in env file. Your API endpoint will run in ${this.address}`);
-            return;
-        }
+        // let environment = process.env["RUNTIME"];
+        // if (environment === undefined) {
+        //     console.warn(`RUNTIME is undefined in env file. Your API endpoint will run in ${this.address}`);
+        //     return;
+        // }
         
     }
 
@@ -157,18 +157,23 @@ export class ApiService {
         }) as Observable<ApiResponse<Product>>;
     }
 
-    public addProductVariant(form: ProductVariantDto) {
+    public addProductVariant(dto: ProductVariantDto) {
         let auth = this.secure.getAuthString();
         if (auth === undefined) return undefined;
-        return this.http.post(this._address + Endpoints.Product.AddProductVariant, form, {
+        return this.http.post(this._address + Endpoints.Product.AddProductVariant, dto, {
             headers: {
                 authorization: "Bearer " + auth.accessToken
             }
-        }) as Observable<ApiResponse<undefined>>;
+        }) as Observable<ApiResponse<string>>;
     }
 
-    public uploadProductImage(form: FormData) {
+    public uploadProductImage(image: File, variantId: string, productId: string) {
         let auth = JSON.parse(this.cookie.get("auth")) as LoginResponseDto;
+        if (auth === undefined) return undefined;
+        const form = new FormData();
+        form.append("Image", image);
+        form.append("VariantId", variantId);
+        form.append("ProductId", productId);
         return this.http.post(this._address + Endpoints.Product.uploadProductImage(), form, {
             headers: {
                 authorization: "Bearer " + auth.accessToken
