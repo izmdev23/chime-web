@@ -1,43 +1,12 @@
-<app-navbar-layout>
-    <main>
-        
-        <app-product-viewer
-        [product]="product$()"
-        [variants]="productVariants$()"
-        [images]="variantImages$()"
-        [preview]="false"/>
+<app-navbar/>
+<main
+animate.enter="--animate-fade-swipe-up-enter"
+animate.leave="--animate-fade-swipe-up-leave">
+    
+    <app-product-viewer
+    [product]="product$()"
+    [variants]="productVariants$()"
+    [images]="variantImages$()"
+    [preview]="false"/>
 
-    </main>
-</app-navbar-layout>
-<!-- 
-@if (addToCartShown()) {
-    <div (click)="addToCartShown.set(false)" id="add-to-cart-popup-container">
-        <div id="add-to-cart-popup" (click)="$event.stopPropagation()">
-            <p style="font-size: 1.5rem; padding-bottom: 16px; font-weight: 700;">Add to Cart</p>
-            <div style="display: grid; grid-template-columns: 0.8fr auto; gap: 8px 32px; align-items: center; margin-bottom: 32px;">
-                <p>Quantity</p>
-                <div style="display: flex; gap: 8px; align-items: center">
-                    <button class="--flat-button add-quantity-button" (click)="decreaseQuantity()">-</button>
-                    <p style="flex: 1; text-align: center;">{{selectedQuantity()}}</p>
-                    <button class="--flat-button add-quantity-button" (click)="increaseQuantity()">+</button>
-                </div>
-                <p style="column-span: all;">Variant</p>
-                <div style="grid-row-start: 3; grid-column-start: 1; grid-column-end: 3;">
-                    @for (variant of variants(); track $index) {
-                        @if (selectedVariant()?.id == variant.id) {
-                            <button class="--flat-button variant" id="selected-variant">{{variant.name}}</button>
-                        }
-                        @else {
-                            <button class="--flat-button variant" (click)="selectedVariant.set(variant)">{{variant.name}}</button>
-                        }
-                    }
-                </div>
-            </div>
-            <p class="--error" style="margin-bottom: 16px;">{{cartErrorMessage().toString()}}</p>
-            <div style="display: flex; gap: 8px;">
-                <button class="--error-button" (click)="addToCartShown.set(false)">Cancel</button>
-                <button style="flex: 1" class="--accent-button" (click)="addToCart()">Add</button>
-            </div>
-        </div>
-    </div>
-} -->
+</main> 

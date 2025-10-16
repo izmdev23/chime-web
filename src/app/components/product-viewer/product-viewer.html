@@ -1,11 +1,16 @@
-<main>
+<main
+animate.enter="--animate-fade-swipe-up-enter"
+animate.leave="--animate-fade-swipe-up-leave">
     <div id="preview-container">
         <div id="preview-image">
             <img [src]="previewImage$()?.image" style="width: 100%; height: 100%; object-fit: contain;">
         </div>
         <div id="gallery">
             @for (image of images$(); track image.id) {
-                <button (click)="setSelectedImage(image)" [class]="'--button image-button ' + getSelectedImageClass(image) ">
+                <button
+                animate.enter="--animate-fade-enter"
+                animate.leave="--animate-fade-leave"
+                (click)="setSelectedImage(image)" [class]="'--button image-button ' + getSelectedImageClass(image) ">
                     <img 
                     [src]="image.image" 
                     animate.enter="--animate-fade-enter"

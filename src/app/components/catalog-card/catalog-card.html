@@ -1,5 +1,8 @@
 @if (isValid()) {
-    <main (click)="onClick()" class="--hover-card">
+    <main
+    animate.enter="--animate-fade-swipe-up-enter"
+    animate.leave="--animate-fade-swipe-up-leave"
+    (click)="onClick()" class="--hover-card">
         <div id="thumbnail-container">
             @if (image) {
                 <p>has image</p>

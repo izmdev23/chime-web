@@ -5,13 +5,14 @@ import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { MyProductsPanel } from "@components/account-manager/my-products-panel/my-products-panel";
 import { DropdownBox } from "@components/dropdown-box/dropdown-box";
+import { Navbar } from "@components/navbar/navbar";
 
 const panels = ["Account Details", "My Products", "Logout", "Managed Shops", "Products"] as const;
 type PanelPage = typeof panels[number] | (string & []);
 
 @Component({
   selector: 'app-account-manager-page',
-  imports: [NavbarLayout, AccountDetails, MyProductsPanel, DropdownBox],
+  imports: [NavbarLayout, AccountDetails, MyProductsPanel, DropdownBox, Navbar],
   templateUrl: './account-manager-page.html',
   styleUrl: './account-manager-page.less'
 })

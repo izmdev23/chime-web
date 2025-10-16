@@ -1,5 +1,7 @@
 <app-navbar/>
-<main>
+<main
+animate.enter="--animate-fade-swipe-up-enter"
+animate.leave="--animate-fade-leave">
     <div id="browser">
         <table class="--card --shadow" id="cart-table">
             <thead>
@@ -48,6 +50,11 @@
                 }
             </tbody>
         </table>
+        @if (cartItems$().length === 0) {
+            <div style="height: 256px; display: flex; justify-content: center; align-items: center;">
+                <p>You cart is empty</p>
+            </div>
+        }
         <!-- @for (cartItem of cartItems$(); track $index) {
             <div class="cart-item-container">
                 <div class="item-info-cell" style="height: 128px;">

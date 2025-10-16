@@ -9,10 +9,11 @@ import { LogService } from '@services/logger';
 import { Location } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { v4 as uuidv4 } from "uuid";
+import { Navbar } from "@components/navbar/navbar";
 
 @Component({
   selector: 'app-product-view-page',
-  imports: [NavbarLayout, ProductViewer],
+  imports: [NavbarLayout, ProductViewer, Navbar],
   templateUrl: './product-view-page.html',
   styleUrl: './product-view-page.less'
 })

@@ -1,39 +1,40 @@
-<app-navbar-layout>
-    <main>
-        <div class="--card container">
-            <div style="width: 256px;">
-                <app-dropdown-box title="Category" [list]="categoriesStringList()" (onItemSelected)="categoriesSelected([])" id="categories-list"/>
-            </div>            
-        </div>
-        <div style="padding: 0px 16px; width: 100%;">
-            <!-- sidebar -->
-            <div style="height: 3rem; display: flex; gap: 8px;">
-                <p style="margin-bottom: 16px; height: 1rem;">Selected Categories</p>
-                <p style="margin-bottom: 16px; height: 1rem;">></p>
-                @if(selectedCategories().length > 0) {
-                    <div style="display: flex; gap: 4px;">
-                        @for (cat of selectedCategories(); track $index) {
-                            <p>{{cat}}</p>
-                        }
-                    </div>
-                }
-                @else {
-                    <p>All</p>
-                }
-            </div>
-
-            @if (products().length === 0) {
-                <p style="margin: 32px; text-align: center; width: 100%;">No Products Available</p>
+<app-navbar/>
+<main
+animate.enter="--animate-fade-swipe-up-enter"
+animate.leave="--animate-fade-leave">
+    <div class="--card container">
+        <div style="width: 256px;">
+            <app-dropdown-box title="Category" [list]="categoriesStringList()" (onItemSelected)="categoriesSelected([])" id="categories-list"/>
+        </div>            
+    </div>
+    <div style="padding: 0px 16px; width: 100%;">
+        <!-- sidebar -->
+        <div style="height: 3rem; display: flex; gap: 8px;">
+            <p style="margin-bottom: 16px; height: 1rem;">Selected Categories</p>
+            <p style="margin-bottom: 16px; height: 1rem;">></p>
+            @if(selectedCategories().length > 0) {
+                <div style="display: flex; gap: 4px;">
+                    @for (cat of selectedCategories(); track $index) {
+                        <p>{{cat}}</p>
+                    }
+                </div>
             }
-            <!-- products -->
-            <div id="content-container">
-                @for (product of products(); track product.id) {
-                    <app-catalog-card [data]="product"/>
-                }
-            </div>
-            
+            @else {
+                <p>All</p>
+            }
+        </div>
+
+        @if (products().length === 0) {
+            <p style="margin: 32px; text-align: center; width: 100%;">No Products Available</p>
+        }
+        <!-- products -->
+        <div id="content-container">
+            @for (product of products(); track product.id) {
+                <app-catalog-card [data]="product"/>
+            }
         </div>
         
-    </main>
-    <app-upload-button size="large" style="position: fixed; bottom: 32px; right: 32px;"/>
-</app-navbar-layout>
+    </div>
+    
+</main>
+<app-upload-button size="large" style="position: fixed; bottom: 32px; right: 32px;"/>

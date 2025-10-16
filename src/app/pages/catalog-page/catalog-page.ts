@@ -10,10 +10,11 @@ import { CookieService } from 'ngx-cookie-service';
 import { UploadButton } from "@components/button/upload-button/upload-button";
 import { DropdownBox } from "@components/dropdown-box/dropdown-box";
 import { LogService } from '@services/logger';
+import { Navbar } from "@components/navbar/navbar";
 
 @Component({
   selector: 'app-catalog-page',
-  imports: [NavbarLayout, CatalogCard, UploadButton, DropdownBox],
+  imports: [NavbarLayout, CatalogCard, UploadButton, DropdownBox, Navbar],
   templateUrl: './catalog-page.html',
   styleUrl: './catalog-page.less'
 })

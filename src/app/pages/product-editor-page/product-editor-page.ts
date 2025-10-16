@@ -13,12 +13,13 @@ import { SecureService } from '@services/security';
 import { errorContext } from 'rxjs/internal/util/errorContext';
 import { Utils } from '@lib/utils';
 import { Location } from '@angular/common';
+import { Navbar } from "@components/navbar/navbar";
 
 type Context = "upload" | "edit";
 
 @Component({
   selector: 'app-product-editor-page',
-  imports: [NavbarLayout, ProductViewer, FormsModule],
+  imports: [NavbarLayout, ProductViewer, FormsModule, Navbar],
   templateUrl: './product-editor-page.html',
   styleUrl: './product-editor-page.less'
 })
