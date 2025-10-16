@@ -94,6 +94,12 @@ export interface ApiResponse<T> {
     data: T;
 }
 
+export interface BaseResponseDto {
+    result: boolean,
+    message?: string,
+    code: number
+}
+
 export interface ErrorData {
     code: number;
     message: string;

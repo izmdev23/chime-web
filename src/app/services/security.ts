@@ -14,4 +14,16 @@ export class SecureService {
         if (this.cookie.check("auth") === false) return undefined;
         return JSON.parse(this.cookie.get("auth")) as LoginResponseDto;
     }
+
+    get accessToken(): string | undefined {
+        if (this.cookie.check("auth") === false) return undefined;
+        let authString = <LoginResponseDto>JSON.parse(this.cookie.get("auth"));
+        return authString.accessToken;
+    }
+
+    get userId(): string | undefined {
+        if (this.cookie.check("auth") === false) return undefined;
+        let authString = <LoginResponseDto>JSON.parse(this.cookie.get("auth"));
+        return authString.userId;
+    }
 }

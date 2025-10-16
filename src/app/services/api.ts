@@ -5,7 +5,8 @@ import { Observable } from "rxjs";
 import { CookieService } from "ngx-cookie-service";
 import { SecureService } from "./security";
 import { Utils } from "@lib/utils";
-import { AddCartItemDto } from "@lib/dto";
+import { DeleteCartItemResponseDto, UpdateCartItemQuantityResponseDto } from "@lib/response-dto";
+import { UpdateCartItemQuantityRequestDto, AddCartItemRequestDto, DeleteCartItemRequestDto } from "@lib/request-dto";
 
 
 export namespace Endpoints {
@@ -32,6 +33,14 @@ export namespace Endpoints {
 
         export function addCartItem() {
             return `/api/product/caritems/add`;
+        }
+
+        export function updateCartItemQuantity() {
+            return `/api/product/caritems/update-quantity`;
+        }
+
+        export function deleteCartItem(cartItemId: string) {
+            return `/api/product/caritems/${cartItemId}`;
         }
 
         export function uploadProductImage() {
@@ -202,7 +211,7 @@ export class ApiService {
         return this.http.get<ApiResponse<CartItem[]>>(this.address + Endpoints.Product.getCartItems(userId));
     }
 
-    public addCartItem(dto: AddCartItemDto): Observable<ApiResponse<CartItem>> | undefined {
+    public addCartItem(dto: AddCartItemRequestDto): Observable<ApiResponse<CartItem>> | undefined {
         let auth = this.secure.getAuthString();
         if (auth === undefined) return undefined;
         const headers = new HttpHeaders({
@@ -211,6 +220,25 @@ export class ApiService {
         return this.http.post<ApiResponse<CartItem>>(this.address + Endpoints.Product.addCartItem(), dto, {
             headers: headers
         });
+    }
+
+    public updateCartItemQuantity(cartItemId: string, newQuantity: number, accessToken: string): Observable<UpdateCartItemQuantityResponseDto> {
+        const dto: UpdateCartItemQuantityRequestDto = {
+            cartItemId: cartItemId,
+            quantity: newQuantity
+        };
+        const headers = new HttpHeaders();
+        headers.append("Authorization", `Bearer ${accessToken}`);
+        return this.http.put<UpdateCartItemQuantityResponseDto>(this.address + Endpoints.Product.updateCartItemQuantity(), dto, { headers: headers });
+    }
+
+    public deleteCartItem(cartItemId: string, accessToken: string): Observable<DeleteCartItemResponseDto> {
+        const dto: DeleteCartItemRequestDto = {
+            cartItemId: cartItemId,
+        };
+        const headers = new HttpHeaders();
+        headers.append("Authorization", `Bearer ${accessToken}`);
+        return this.http.delete<DeleteCartItemResponseDto>(this.address + Endpoints.Product.deleteCartItem(cartItemId), { headers: headers });
     }
     
 }

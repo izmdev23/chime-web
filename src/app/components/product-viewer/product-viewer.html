@@ -6,7 +6,11 @@
         <div id="gallery">
             @for (image of images$(); track image.id) {
                 <button (click)="setSelectedImage(image)" [class]="'--button image-button ' + getSelectedImageClass(image) ">
-                    <img [src]="image.image" style="height: 100%; width: 100%; object-fit: cover;">
+                    <img 
+                    [src]="image.image" 
+                    animate.enter="--animate-fade-enter"
+                    animate.leave="--animate-fade-leave"
+                    style="height: 100%; width: 100%; object-fit: cover;">
                 </button>
             }
             <!-- <p>{{images$().length}}</p> -->
@@ -47,44 +51,46 @@
                     </div>
                 </div>
 
-                <div style="position: relative;">
+                <div style="position: relative; display: flex; gap: 8px;">
                     @if (showCartPanel()) {
-                        <button (click)="showCartPanel.set(false)" style="width: 100%;" class="--flat-button">Cancel</button>
+                        <button (click)="showCartPanel.set(false)" id="show-cart-button" class="--flat-button">Cancel</button>
                     }
                     @else {
-                        <button (click)="openCartPanel()" style="width: 100%;" class="--accent-button">Add to Cart</button>
+                        <button (click)="openCartPanel()" id="show-cart-button" class="--accent-button">Add to Cart</button>
                     }
                 </div>
         
                 
             </div>
-            @if (showCartPanel()) {
-                <div 
-                id="cart-panel-container" 
-                animate.enter="--animate-fade-enter"
-                animate.leave="--animate-fade-leave">
-                    <div id="cart-panel">
-                        <p class="--title-v2">Add to cart</p>
-                        <div>
-                            <p>Variant</p>
-                            <select style="width: 100%;" [(ngModel)]="cartItemVariant$().id">
-                                @for (variant of variants$(); track variant.id) {
-                                    <option [value]="variant.id">{{variant.name}}</option>
-                                }
-                            </select>
-                        </div>
-                        <div>
-                            <p>Amount</p>
-                            <div style="display: flex; justify-content: space-between; gap: 8px;">
-                                <button style="flex: 1;" class="--error-button" (click)="decreaseAmount()">-</button>
-                                <input style="width: 50%;" class="--input" type="number" [(ngModel)]="cartItemAmount$">
-                                <button style="flex: 1;" class="--accent-button" (click)="increaseAmount()">+</button>
+            <div style="flex: 1; max-width: 256px;">
+                @if (showCartPanel()) {
+                    <div 
+                    id="cart-panel-container" 
+                    animate.enter="--animate-fade-enter"
+                    animate.leave="--animate-fade-leave">
+                        <div id="cart-panel">
+                            <p class="--title-v2">Add to cart</p>
+                            <div>
+                                <p>Variant</p>
+                                <select style="width: 100%;" [(ngModel)]="cartItemVariant$().id">
+                                    @for (variant of variants$(); track variant.id) {
+                                        <option [value]="variant.id">{{variant.name}}</option>
+                                    }
+                                </select>
+                            </div>
+                            <div>
+                                <p>Amount</p>
+                                <div style="display: flex; justify-content: space-between; gap: 8px;">
+                                    <button style="flex: 1;" class="--error-button" (click)="decreaseAmount()">-</button>
+                                    <input style="width: 50%;" class="--input" type="number" [(ngModel)]="cartItemAmount$">
+                                    <button style="flex: 1;" class="--accent-button" (click)="increaseAmount()">+</button>
+                                </div>
                             </div>
                         </div>
+                        <button (click)="addToCart()" class="--accent-button">Add</button>
                     </div>
-                    <button (click)="addToCart()" class="--accent-button">Add</button>
-                </div>
-            }
+                }
+            </div>
         </div>
 
 

@@ -1,76 +1,116 @@
-<app-navbar-layout>
-    <main>
-        <div id="browser">
-            <div id="cart-table-header">
-                <h1 style="font-size: 1.5rem;">Product</h1>
-                <div class="cart-item-cell">Price</div>
-                <div class="cart-item-cell">Quantity</div>
-                <div class="cart-item-cell">Total Price</div>
-            </div>
-            @for (item of cartItems(); track $index) {
-                <div class="cart-item-container">
-                    <div class="item-info-cell" style="height: 128px;">
-                        <img [src]="`${api.address}/${item.images[0]}`" class="item-image">
-                        <div style="display: flex; flex-direction: column; gap: 8px;">
-                            <h1>{{items().get(item.productId)?.name}}</h1>
-                            <div>
-                                <p style="font-style: italic;">{{getVariant(item)}}</p>
+<app-navbar/>
+<main>
+    <div id="browser">
+        <table class="--card --shadow" id="cart-table">
+            <thead>
+                <tr id="cart-head">
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (cartItem of cartItems$(); track $index) {
+                    <tr>
+                        <td>
+                            <div style="display: flex; gap: 8px; height: 100%;">
+                                <img [src]="`${api.address}/${cartItem.images[0]}`" class="item-image">
+                                <div style="height: 100%; padding: 4px 0; display: flex; flex-direction: column; gap: 4px;">
+                                    <p>{{items$().get(cartItem.productId)?.name}}</p>
+                                    <div style="display: flex; gap: 4px;">
+                                        <p>Variant:</p>
+                                        <p>{{getVariant(cartItem)}}</p>
+                                    </div>
+                                    <button class="--button" id="delete-button">Remove</button>
+                                </div>
                             </div>
+                        </td>
+                        <td>
+                            <div class="cart-item-cell"> 
+                                <p>{{util.toCurrency(getPrice(cartItem.productId, cartItem.variantId))}}</p>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="cart-item-cell" style="display: flex; gap: 8px; justify-content: space-between; display: flex; align-items: center;">
+                                <button (click)="decreaseQuantity(cartItem)" class="--flat-button update-quantity-button">-</button>
+                                <p>{{cartItem.quantity}}</p>
+                                <button (click)="increaseQuantity(cartItem)" class="--flat-button update-quantity-button">+</button>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="cart-item-cell">
+                                <p class="cart-item-cell quantity-cell price">{{util.toCurrency(getPrice(cartItem.productId, cartItem.variantId) * cartItem.quantity)}}</p>
+                            </div>
+                        </td>
+                        
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <!-- @for (cartItem of cartItems$(); track $index) {
+            <div class="cart-item-container">
+                <div class="item-info-cell" style="height: 128px;">
+                    <img [src]="`${api.address}/${cartItem.images[0]}`" class="item-image">
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <h1>{{items$().get(cartItem.productId)?.name}}</h1>
+                        <div>
+                            <p style="font-style: italic;">{{getVariant(cartItem)}}</p>
                         </div>
                     </div>
-                    <div class="cart-item-cell">
-                        <!-- <p>₱{{items().get(item.productId) ? items().get(item.productId)?.price?.toLocaleString() : null}}</p> -->
-                    </div>
-                    <div class="cart-item-cell quantity-cell">
-                        <button (click)="decreaseQuantity(item)" class="--flat-button">-</button>
-                        <p style="flex: 1; text-align: center;">{{item.quantity}}</p>
-                        <button (click)="increaseQuantity(item)" class="--flat-button">+</button>
-                    </div>
-                    <!-- <p class="cart-item-cell quantity-cell price">{{util.toCurrency(util.getTotalPrice(items().get(item.productId), item))}}</p> -->
                 </div>
-            }
-        </div>
-        <div style="width: 20%; display: flex; flex-direction: column; gap: 16px;">
-            <div class="--card" style="padding: 16px; height: fit-content;">
-                <div>
-                    <h1>Shipping Cost</h1>
-                    <div style="display: flex; justify-content: space-between; padding: 16px 0;">
-                        <p>Country</p>
-                        <p>Philippines</p>
-                    </div>
+                <div class="cart-item-cell">
+                    <p>{{util.toCurrency(getPrice(cartItem.productId, cartItem.variantId))}}</p>
                 </div>
-                <div>
-                    <h1>Coupons</h1>
-                    <div style="display: flex; justify-content: space-between; padding: 16px 0;">
-                        <p>None</p>
-                    </div>
+                <div class="cart-item-cell quantity-cell">
+                    <button (click)="decreaseQuantity(cartItem)" class="--flat-button">-</button>
+                    <input type="number" style="flex: 1; text-align: center;" [(ngModel)]="cartItem.quantity">
+                    <button (click)="increaseQuantity(cartItem)" class="--flat-button">+</button>
+                </div>
+                <p class="cart-item-cell quantity-cell price">{{util.toCurrency(getPrice(cartItem.productId, cartItem.variantId) * cartItem.quantity)}}</p>
+            </div>
+        } -->
+    </div>
+    <aside>
+        <div class="--shadow" style="padding: 16px; height: fit-content;">
+            <div>
+                <h1>Shipping Cost</h1>
+                <div style="display: flex; justify-content: space-between; padding: 16px 0;">
+                    <p>Country</p>
+                    <p>Philippines</p>
                 </div>
             </div>
-            <div class="--card" style="padding: 16px; height: fit-content;">
-                <h1 style="margin-bottom: 16px;">Cart Total</h1>
-                <div style="display: flex; flex-direction: column; gap: 4px;">
-                    <div style="display: flex; justify-content: space-between;">
-                        <p>Subtotal</p>
-                        <p>{{util.toCurrency(getSubtotal())}}</p>
-                    </div>
-                    <div style="display: flex; justify-content: space-between;">
-                        <p>Chime Discounts</p>
-                        <p>0</p>
-                    </div>
-                    <div style="display: flex; justify-content: space-between;">
-                        <p>Coupons</p>
-                        <p>0</p>
-                    </div>
-                    <div style="margin: 8px 0;" class="--card"></div>
-                    <div style="display: flex; justify-content: space-between;">
-                        <h1>Total</h1>
-                        <p>{{util.toCurrency(getTotal())}}</p>
-                    </div>
+            <div>
+                <h1>Coupons</h1>
+                <div style="display: flex; justify-content: space-between; padding: 16px 0;">
+                    <p>None</p>
                 </div>
-
             </div>
-            <button class="--accent-button">Confirm Purchase</button>
+        </div>
+        <div class="--shadow" style="padding: 16px; height: fit-content;">
+            <h1 style="margin-bottom: 16px;">Cart Total</h1>
+            <div style="display: flex; flex-direction: column; gap: 4px;">
+                <div style="display: flex; justify-content: space-between;">
+                    <p>Subtotal</p>
+                    <p>{{util.toCurrency(subtotal)}}</p>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <p>Chime Discounts</p>
+                    <p>0</p>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <p>Coupons</p>
+                    <p>0</p>
+                </div>
+                <div style="margin: 8px 0;" class="--card"></div>
+                <div style="display: flex; justify-content: space-between;">
+                    <h1>Total</h1>
+                    <p>{{util.toCurrency(total)}}</p>
+                </div>
+            </div>
 
         </div>
-    </main>
-</app-navbar-layout>
+        <button class="--accent-button">Confirm Purchase</button>
+
+    </aside>
+</main>

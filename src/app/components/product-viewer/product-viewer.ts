@@ -207,6 +207,7 @@ export class ProductViewer {
       this.router.navigate(["login"]);
       return;
     }
+    this.logger.print("Adding product to cart...");
     let result = this.api.addCartItem({
       productId: this.product$().id,
       variantId: this.cartItemVariant$().id,
@@ -222,6 +223,9 @@ export class ProductViewer {
         console.error(response);
       },
       complete: () => {
+        this.cartItemVariant$.set(Enums.Defaults.Model.VARIANT);
+        this.cartItemAmount$.set(0);
+        this.showCartPanel.set(false);
         this.logger.success("New product added to cart");
       }
     })

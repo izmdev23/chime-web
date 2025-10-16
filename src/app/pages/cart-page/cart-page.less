@@ -1,15 +1,23 @@
 @import "variables.less";
 
 @table-header-grid-size: 1fr 0.16fr 0.25fr 0.16fr;
-@image-height: 128px;
+@image-height: 64px;
 
 main {
     width: 100%;
-    min-height: 100vh;
+    min-width: 720px;
+    max-width: 1000px;
     padding: 16px;
-
+    
     display: flex;
     gap: 16px;
+    margin: 0 auto;
+}
+
+aside {
+    width: 20%; display: flex; flex-direction: column; gap: 16px;
+    position: sticky;
+    top: 0;
 }
 
 #browser {
@@ -17,6 +25,52 @@ main {
     flex-direction: column;
     gap: 16px;
     flex: 1;
+}
+
+#cart-table {
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    
+    thead {
+        border-radius: 8px;
+            th {
+                padding: 16px;
+                background-color: @color-bg-secondary;
+                min-width: 16px;
+            }
+            th:first-child {
+                border-top-left-radius: 8px;
+            }
+            th:last-child {
+                border-top-right-radius: 8px;
+            }
+    }
+
+    tbody {
+        background-color: @color-bg-primary;
+
+        td {
+            padding: 16px;
+            height: 16px;
+        }
+    }
+    
+}
+
+#delete-button {
+    padding: 0; background-color: transparent; text-align: left; width: fit-content;
+    color: @color-font-error;
+
+    &:hover {
+    }
+}
+
+.update-quantity-button {
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
 }
 
 #--base-cart-table {
@@ -43,9 +97,8 @@ main {
 
 .cart-item-cell {
     display: flex;
-    justify-content: center;
     align-items: center;
-    padding: 16px;
+    justify-content: center;
 }
 
 .item-image {

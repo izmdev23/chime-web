@@ -45,10 +45,11 @@ main {
 }
 
 #content {
+    width: fit-content;
     display: flex;
     flex-direction: column;
     gap: 16px;
-    background-color: @color-bg-primary;
+    // background-color: @color-bg-primary;
 }
 
 #title {
@@ -98,11 +99,18 @@ main {
     margin: 16px 0 0 0;
 }
 
+#show-cart-button {
+    flex: 1;
+}
+
 
 #cart-panel-container {
     display: flex; flex-direction: column; justify-content: space-between;
     border: @border;
     padding: 16px;
+    gap: 16px;
+    height: 100%;
+    border-radius: 8px;
 }
 
 #cart-panel {
