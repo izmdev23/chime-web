@@ -100,7 +100,7 @@ export class ProductEditorPage {
         this.categories$.set(response.data);
       },
       error: (response: HttpErrorResponse) => {
-        this.logger.error(response);
+        // this.logger.error(response);
       }
     })
   }
@@ -243,7 +243,7 @@ export class ProductEditorPage {
     }
 
     this.uploadProductData(productDto);
-    this.location.back();
+    // this.location.back();
     
   }
 
@@ -275,8 +275,13 @@ export class ProductEditorPage {
           });
         });
       },
-      error: (response) => {
-        console.error(response);
+      error: (response: HttpErrorResponse) => {
+        if (response.status === 401) {
+          console.error("Session expired. Please login again");
+          this.logger.error("Session expired. Please login again");
+          this.router.navigate(["login"]);
+          return;
+        }
         this.logger.error("An error occured while uploading product");
       },
       complete: () => {
@@ -298,7 +303,10 @@ export class ProductEditorPage {
           return;
         }
         this.images$().forEach(image => {
-          this.uploadProductImage(image, dto.productId, response.data);
+          const clientVariant = this.variants$().find(e => e.id === image.variantId);
+          if (clientVariant === undefined) return;
+          if (response.data.name !== clientVariant.name) return;
+          this.uploadProductImage(image, dto.productId, response.data.id);
         });
       },
       error: (response) => {

@@ -3,13 +3,13 @@ import { RouterOutlet } from '@angular/router';
 import { ApiService } from '@services/api';
 import { ErrorData, LoginResponseDto } from '@lib/models';
 import { CookieService } from 'ngx-cookie-service';
-import { ErrorPanel } from "@components/error-panel/error-panel";
 import { LogService } from '@services/logger';
 import { v4 as uuidv4 } from "uuid";
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, ErrorPanel],
+  imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.less'
 })
@@ -25,13 +25,13 @@ export class App {
     private cookie: CookieService,
     private api: ApiService,
     protected logger: LogService,
-    protected cdr: ChangeDetectorRef
+    protected cdr: ChangeDetectorRef,
+    protected location: Location
   ) {}
   
   ngOnInit() {
     this.logger.onError.subscribe({
       next: (err) => {
-        console.log("Emit", err);
         const assignedId = uuidv4();
         setTimeout(() => {
           this.errors$.update(val => {
@@ -55,22 +55,18 @@ export class App {
     }
   }
 
-
-
   private connectServer() {
-    this.hasError.set(true);
-    this.errorMessage.set("Connecting to server...");
-    console.warn("Connecting to server...");
+
     this.api.ping().subscribe({
       error: () => {
-        this.hasError.set(true);
-        this.errorMessage.set("Cannot connect to server");
-        console.error("Cannot connect to server " + this.api.address);
-        setTimeout(this.connectServer, 5000);
+        this.logger.error("Server is unavailable");
+        setTimeout(() => {
+          this.logger.warn("Connecting to server...");
+          this.connectServer();
+        }, 5000);
       },
       complete: () => {
-        this.hasError.set(false);
-        this.errorMessage.set("");
+        this.logger.success("Connected to server");
         this.autoLogin();
       }
     })

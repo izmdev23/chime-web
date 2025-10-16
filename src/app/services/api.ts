@@ -157,14 +157,14 @@ export class ApiService {
         }) as Observable<ApiResponse<Product>>;
     }
 
-    public addProductVariant(dto: ProductVariantDto) {
+    public addProductVariant(dto: ProductVariantDto): Observable<ApiResponse<ProductVariant>> | undefined {
         let auth = this.secure.getAuthString();
         if (auth === undefined) return undefined;
-        return this.http.post(this._address + Endpoints.Product.AddProductVariant, dto, {
+        return this.http.post<ApiResponse<ProductVariant>>(this._address + Endpoints.Product.AddProductVariant, dto, {
             headers: {
                 authorization: "Bearer " + auth.accessToken
             }
-        }) as Observable<ApiResponse<string>>;
+        });
     }
 
     public uploadProductImage(image: File, variantId: string, productId: string) {

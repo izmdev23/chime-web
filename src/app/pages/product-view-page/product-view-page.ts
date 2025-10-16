@@ -8,7 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { LogService } from '@services/logger';
 import { Location } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-
+import { v4 as uuidv4 } from "uuid";
 
 @Component({
   selector: 'app-product-view-page',
@@ -48,7 +48,6 @@ export class ProductViewPage {
     // fetch product data
     this.api.getProduct(prodId).subscribe({
       next: (response) => {
-        console.log(response);
         if (response.code > 1) {
           this.logger.error(response.message);
           this.location.back();
@@ -71,7 +70,6 @@ export class ProductViewPage {
   updateVariants(prodId: string) {
     this.api.getProductVariants(prodId).subscribe({
       next: (response) => {
-        console.log(response);
         if (response.code > 1) {
           this.logger.error(response.message);
           this.location.back();
@@ -98,19 +96,17 @@ export class ProductViewPage {
     // fetch images
     this.api.getProductVariantImages(prodId, variantId).subscribe({
       next: (response) => {
-        console.log(response);
         if (response.code > 1) this.logger.error(response.message);
-
         const imageObjects: Image[] = [];
         for(const image of response.data) {
           imageObjects.push({
             file: null,
-            id: "",
+            id: uuidv4(),
             image: `${this.api.address}/${image}`,
             variantId: variantId
           });
         }
-        this.variantImages$.set(imageObjects);
+        this.variantImages$.update(val => val.concat(imageObjects));
         
       },
       error: (response: HttpErrorResponse) => {
