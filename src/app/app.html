@@ -1,1 +1,11 @@
-<router-outlet/>
+<main>
+    <router-outlet/>
+    <div id="error-panel">
+        @for (item of errors$(); track $index) {
+        <p 
+        animate.enter="--animate-swipe-up-enter"
+        animate.leave="--animate-fade-leave"
+        [class]="`error ${item[1].type}`">{{item[1].message}}</p>
+        }
+    </div>
+</main>

@@ -1,0 +1,106 @@
+<main
+animate.enter="--animate-fade-swipe-up-enter"
+animate.leave="--animate-fade-swipe-up-leave">
+    <div id="preview-container">
+        <div id="preview-image">
+            <img [src]="previewImage$()?.image" style="width: 100%; height: 100%; object-fit: contain;">
+        </div>
+        <div id="gallery">
+            @for (image of images$(); track image.id) {
+                <button
+                animate.enter="--animate-fade-enter"
+                animate.leave="--animate-fade-leave"
+                (click)="setSelectedImage(image)" [class]="'--button image-button ' + getSelectedImageClass(image) ">
+                    <img 
+                    [src]="image.image" 
+                    animate.enter="--animate-fade-enter"
+                    animate.leave="--animate-fade-leave"
+                    style="height: 100%; width: 100%; object-fit: cover;">
+                </button>
+            }
+            <!-- <p>{{images$().length}}</p> -->
+        </div>
+    </div>
+
+    <div id="content-container">
+        <div style="display: flex; gap: 16px;">
+            <div id="content">
+                @let prodName = "Your product name will show up here. Please enter a short descriptive title for your product that can hook up customers";
+                <p id="title">{{product$().name.length > 0 ? product$().name : preview? prodName : ""}}</p>
+        
+                <div style="display: flex; gap: 4px;">
+                    @for (star of [1, 2, 3, 4, 5]; track $index) {
+                        <img src="/icons/star.svg" class="star">
+                    }
+                    <p style="margin-left: 16px;">{{getTotalRatingCount()}} ratings</p>
+                </div>
+        
+                <!-- price -->
+                <div>
+                    <p id="price">{{getPriceString()}}</p>
+                </div>
+        
+                <div>
+                    <p style="color: rgba(0, 0, 0, 0.4); margin: 8px 0; font-style: italic;">{{variants$().length}} {{variants$().length > 1 ? "variants" : "variant"}} available</p>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        @for (variant of variants$(); track variant.id) {
+                            <button (click)="setSelectedVariant(variant)" [class]="'--button variant ' + getSelectedVariantClass(variant) ">
+                                <div style="width: 32px; height: 100%;">
+                                    <img [src]="getVariantImageThumbnail(variant)?.image" style="height: 100%; width: 100%; object-fit: cover;">
+                                </div>
+                                <div style="min-width: 32px; max-width: 96px;">
+                                    <p style="padding: 4px 8px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">{{variant.name.length > 0? variant.name : "Unnamed Variant"}}</p>
+                                </div>
+                            </button>
+                        }
+                    </div>
+                </div>
+
+                <div style="position: relative; display: flex; gap: 8px;">
+                    @if (showCartPanel()) {
+                        <button (click)="showCartPanel.set(false)" id="show-cart-button" class="--flat-button">Cancel</button>
+                    }
+                    @else {
+                        <button (click)="openCartPanel()" id="show-cart-button" class="--accent-button">Add to Cart</button>
+                    }
+                </div>
+        
+                
+            </div>
+            <div style="flex: 1; max-width: 256px;">
+                @if (showCartPanel()) {
+                    <div 
+                    id="cart-panel-container" 
+                    animate.enter="--animate-fade-enter"
+                    animate.leave="--animate-fade-leave">
+                        <div id="cart-panel">
+                            <p class="--title-v2">Add to cart</p>
+                            <div>
+                                <p>Variant</p>
+                                <select style="width: 100%;" [(ngModel)]="cartItemVariant$().id">
+                                    @for (variant of variants$(); track variant.id) {
+                                        <option [value]="variant.id">{{variant.name}}</option>
+                                    }
+                                </select>
+                            </div>
+                            <div>
+                                <p>Amount</p>
+                                <div style="display: flex; justify-content: space-between; gap: 8px;">
+                                    <button style="flex: 1;" class="--error-button" (click)="decreaseAmount()">-</button>
+                                    <input style="width: 50%;" class="--input" type="number" [(ngModel)]="cartItemAmount$">
+                                    <button style="flex: 1;" class="--accent-button" (click)="increaseAmount()">+</button>
+                                </div>
+                            </div>
+                        </div>
+                        <button (click)="addToCart()" class="--accent-button">Add</button>
+                    </div>
+                }
+            </div>
+        </div>
+
+
+        @let prodDesc = "You description will appear here. Pleave provide the full details and specifications for your product. Avoid ambigous words that might be misunderstood by customers";
+        <textarea id="description" disabled>{{product$().description.length > 0? product$().description : preview? prodDesc : ""}}</textarea>
+    </div>
+    
+</main>

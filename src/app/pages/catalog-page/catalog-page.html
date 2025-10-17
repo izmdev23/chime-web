@@ -1,15 +1,43 @@
-<app-navbar-layout>
-    <div style="display: flex; gap: 8px; margin: 32px 0px;">
-        <div class="container" id="sidebar">
-            <h1 style="margin-bottom: 8px;">Categories</h1>
-            @for (item of categories(); track item.id) {
-                <p class="--hover" style="width: fit-content;">{{item.name}}</p>
+<app-navbar/>
+<main
+animate.enter="--animate-fade-swipe-up-enter"
+animate.leave="--animate-fade-leave">
+    <aside class="--card container">
+        <div class="sidebar-content-container" style="width: 256px;">
+            <p class="--title-v2">Categories</p>
+            @for (category of categories(); track category.id) {
+                <button class="--button">{{category.name}}</button>
             }
         </div>
-        <div class="container" id="contents">
+    </aside>
+    <div style="padding: 0px 16px; width: 100%;">
+        <!-- sidebar -->
+        <div style="height: 3rem; display: flex; gap: 8px;">
+            <p style="margin-bottom: 16px; height: 1rem;">Selected Categories</p>
+            <p style="margin-bottom: 16px; height: 1rem;">></p>
+            @if(selectedCategories().length > 0) {
+                <div style="display: flex; gap: 4px;">
+                    @for (cat of selectedCategories(); track $index) {
+                        <p>{{cat}}</p>
+                    }
+                </div>
+            }
+            @else {
+                <p>All</p>
+            }
+        </div>
+
+        @if (products().length === 0) {
+            <p style="margin: 32px; text-align: center; width: 100%;">No Products Available</p>
+        }
+        <!-- products -->
+        <div id="content-container">
             @for (product of products(); track product.id) {
                 <app-catalog-card [data]="product"/>
             }
         </div>
+        
     </div>
-</app-navbar-layout>
+    
+</main>
+<app-upload-button size="large" style="position: fixed; bottom: 32px; right: 32px;"/>

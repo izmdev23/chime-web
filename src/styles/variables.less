@@ -3,7 +3,171 @@
 @border: 1px solid rgba(0, 0, 0, 0.25);
 @color-error: #E53935;
 @color-primary: #FFB74D;
+
+@color-font-primary: #000000;
+@color-font-accent: #E65100;
+@color-font-error: #E53935;
+@color-font-warning: #FFEB3B;
+
+@color-bg-primary: #FFFFFF;
+@color-bg-secondary: #E0E0E0;
+@color-bg-error: #E57373;
+@color-bg-warning: #FFF59D;
+@color-bg-success: #A5D6A7;
+
+@color-accent-primary: #FFB74D;
 @background-color-primary: #FFB74D;
 @background-color-hover: brightness(0.9);
 @background-color-active: brightness(0.75);
 @transition: all 100ms ease-out;
+
+@color-button-error: #E57373;
+@min-height-account-manager-panel: 512px;
+
+@shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+
+// animations
+.anim-swipe-down-from {
+    translate: 0 -100%;
+    z-index: -10;
+}
+.anim-swipe-down-to {
+    translate: 0;
+    z-index: 1;
+}
+
+@keyframes swipedown {
+    from {
+        .anim-swipe-down-from();
+    }
+    to {
+        .anim-swipe-down-to();
+    }
+}
+
+@keyframes swipeleft {
+    from {
+        translate: -100% 0;
+        z-index: -10;
+    }
+    to {
+        translate: 0;
+        z-index: 1;
+    }
+}
+
+@keyframes swipeup {
+    from {
+        translate: 0 100%;
+        z-index: -10;
+    }
+    to {
+        translate: 0;
+        z-index: 1;
+    }
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fade-swipe-up {
+    from {
+        translate: 0 5%;
+        z-index: -1;
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+        translate: 0;
+        z-index: 1;
+    }
+}
+
+@keyframes fade-swipe-left {
+    from {
+        opacity: 0;
+        translate: -5% 0;
+        z-index: -10;
+    }
+    to {
+        opacity: 1;
+        translate: 0;
+        z-index: 1;
+    }
+}
+
+@animation-speed: 250ms;
+@animation-ease-out: linear(0, 0.5, 0.75, 0.9, 0.95, 1);
+@animation-ease-in: linear(0, 0.05, 0.1, 0.25, 0.5, 1);
+
+// swipe down
+.--animate-swipe-down-enter {
+    animation: swipedown @animation-speed;
+    animation-timing-function: @animation-ease-out;
+}
+
+.--animate-swipe-down-leave {
+    animation: swipedown @animation-speed reverse;
+    animation-timing-function: @animation-ease-in;
+}
+
+// swipe up
+.--animate-swipe-up-enter {
+    animation: swipeup @animation-speed;
+    animation-timing-function: @animation-ease-out;
+}
+
+.--animate-swipe-up-leave {
+    animation: swipeup @animation-speed reverse;
+    animation-timing-function: @animation-ease-in;
+}
+
+// swipe left
+.--animate-swipe-left-enter {
+    animation: swipeleft @animation-speed;
+    animation-timing-function: @animation-ease-out;
+}
+
+.--animate-swipe-left-leave {
+    animation: swipeleft @animation-speed reverse;
+    animation-timing-function: @animation-ease-in;
+}
+
+// fade
+.--animate-fade-enter {
+    animation: fadein @animation-speed;
+    animation-timing-function: @animation-ease-out;
+}
+
+.--animate-fade-leave {
+    animation: fadein @animation-speed reverse;
+    animation-timing-function: @animation-ease-in;
+}
+
+// fade swipe up
+.--animate-fade-swipe-up-enter {
+    animation: fade-swipe-up @animation-speed;
+    animation-timing-function: @animation-ease-out;
+}
+
+.--animate-fade-swipe-up-leave {
+    animation: fade-swipe-up @animation-speed reverse;
+    animation-timing-function: @animation-ease-in;
+}
+
+// fade swipe left
+.--animate-fade-swipe-left-enter {
+    animation: fade-swipe-left @animation-speed;
+    animation-timing-function: @animation-ease-out;
+}
+
+.--animate-fade-swipe-left-leave {
+    animation: fade-s   wipe-left @animation-speed reverse;
+    animation-timing-function: @animation-ease-in;
+}

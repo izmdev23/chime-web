@@ -1,0 +1,51 @@
+@import "variables.less";
+
+#error-panel {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    height: fit-content;
+
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: end;
+    gap: 4px;
+
+    pointer-events: none;
+
+    padding: 8px;
+    
+    .error {
+        background-color: @color-bg-error;
+        padding: 8px;
+        border-radius: 8px;
+        border: @border;
+        color: white;
+    }
+
+    .warning {
+        background-color: @color-bg-warning;
+        padding: 8px;
+        border-radius: 8px;
+        border: @border;
+        color: black;
+    }
+
+    .log {
+        background-color: @color-bg-secondary;
+        padding: 8px;
+        border-radius: 8px;
+        border: @border;
+        color: black;
+    }
+
+    .success {
+        background-color: @color-bg-success;
+        padding: 8px;
+        border-radius: 8px;
+        border: @border;
+        color: black;
+    }
+
+
+}

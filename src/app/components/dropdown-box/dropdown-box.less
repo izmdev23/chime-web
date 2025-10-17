@@ -1,0 +1,36 @@
+@import "variables.less";
+
+main {
+    min-width: 200px;
+}
+
+#dropdown {
+    display: flex;
+    flex-direction: column;
+    padding-left: 8px;
+}
+
+#open-btn {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+#delete-btn {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+#delete-btn-icon {
+    height: 1rem;
+    width: fit-content;
+}
+
+#bar-indicator {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 2px;
+    background-color: @color-accent-primary;
+    z-index: 1;
+}

@@ -1,0 +1,274 @@
+<app-navbar style="position: absolute; z-index: 1; width: 100%;"/>
+<main
+animate.enter="--animate-fade-swipe-up-enter"
+animate.leave="--animate-fade-swipe-up-leave">
+    
+    <aside>
+        <!-- description -->
+        <p class="--title-v2">Description</p>
+        <div class="input-container">
+            <p>Product Name</p>
+            <input class="--input" [(ngModel)]="product$().name">
+        </div>
+        <div class="input-container">
+            <p>Product Description</p>
+            <textarea class="--input" [(ngModel)]="product$().description"></textarea>
+        </div>
+        <div class="input-container">
+            <p>Category</p>
+            <select [(ngModel)]="product$().categoryId">
+                @for (category of categories$(); track category.id) {
+                    <option [value]="category.id">{{category.name}}</option>
+                }
+            </select>
+        </div>
+        <div class="input-container --disabled">
+            <p>Tags</p>
+            <div style="padding: 8px; min-height: 64px;">
+                @if (tags().length === 0) {
+                    <p style="text-align: center;">Your product has no tags</p>
+                }
+            </div>
+            <div style="width: 100%; display: flex; gap: 4px;">
+                <input style="flex: 1;" class="--input" type="text">
+                <button style="flex: 1;" class="--flat-button">Add</button>
+            </div>
+        </div>
+
+        <!-- variants -->
+        <div class="input-container">
+            <p>Variants</p>
+            <table style="width: 100%;">
+                <tr style="text-align: center;">
+                    <th style="width: 45%; padding-bottom: 16px;">Variant Name</th>
+                    <th>Stock</th>
+                    <th></th>
+                </tr>
+                @for (variant of variants$(); track variant.id) {
+                    <tr>
+                        <p>Variant {{$index + 1}}</p>
+                    </tr>
+                    <tr>
+                        <td><input class="--input" type="text" [(ngModel)]="variant.name" placeholder="Variant name"></td>
+                        <td><input class="--input" type="number" [(ngModel)]="variant.stock"></td>
+                        <td>
+                            <button
+                            (click)="removeVariant(variant.id)"
+                            class="--error-button">Delete</button>
+                        </td>
+                    </tr>
+                }
+                @if (variants$().length === 0) {
+                    <tr>
+                        <td colspan="2">
+                            <p style="text-align: center; padding: 16px 0;">Your products has no variants</p>
+                        </td>
+                    </tr>
+                }
+            </table>
+            <button (click)="addVariant()" class="--accent-button">Add</button>
+        </div>
+
+        <!-- pricing -->
+        <p class="--title-v2">Pricing</p>
+        <i style="color: rgba(0, 0, 0, 0.4);">You variants will be automatically reflected here. To add a pricing, you must add a variant first</i>
+        <div class="input-container">
+            @for (variant of variants$(); track variant.id) {
+                <table style="width: 100%;">
+                    <tr>
+                        <th style="text-align: left;" [colSpan]="2">{{variant.name.length > 0? variant.name : "Unnamed Variant"}}</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                <p>Price</p>
+                                <input class="--input" type="number" [(ngModel)]="variant.price">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="--disabled">
+                                <p>Sale Price</p>
+                                <input class="--input" type="number" [(ngModel)]="variant.salePrice">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="--disabled">
+                        <td colspan="2">
+                            <div>
+                                <p>Sale Start</p>
+                                <input class="--input" type="datetime-local" [(ngModel)]="variant.saleStart">
+                            </div>
+                        </td>
+                        <td style="vertical-align: bottom;">
+                            <button class="--flat-button">Clear</button>
+                        </td>
+                    </tr>
+                    <tr class="--disabled">
+                        <td style="vertical-align: bottom;" colspan="2">
+                            <div>
+                                <p>Sale End</p>
+                                <input class="--input" type="datetime" [(ngModel)]="variant.saleEnd">
+                            </div>
+                        </td>
+                        <td style="vertical-align: bottom;">
+                            <button class="--flat-button">Clear</button>
+                        </td>
+                    </tr>
+                </table>
+                <hr style="margin-bottom: 16px;">
+            }
+        </div>
+
+        <!-- media -->
+        <!-- images -->
+        <p class="--title-v2">Media</p>
+        <div class="input-container">
+            <p>Images</p>
+            <div style="display: flex; height: 128px; width: 100%; gap: 8px; position: relative; align-items: center;">
+                @for (image of images$(); track image.id; let i = $index) {
+                    @if (i < 1) {
+                        <img [src]="image.image" height="128" width="128">
+                    }
+                    @else {
+                        <img style="position: absolute; left: 130px;" [src]="image.image" height="128" width="128">
+                    }
+                }
+                @if (images$().length === 0) {
+                    <p style="text-align: center; width: 100%;">Your product has no images</p>
+                }
+                @if (images$().length > 2) {
+                    <div style="position: absolute; left: 130px; width: 128px; height: 100%; background-color: rgba(0, 0, 0, 0.4); display: flex; align-items: center; justify-content: center;">
+                        <p style="color: white;">+{{images$().length-1}} More</p>
+                    </div>
+                }
+            </div>
+            <div style="display: flex; gap: 8px;">
+                <label style="flex: 1; text-align: center;" class="--flat-button" for="add-image">
+                    Add
+                    <input (change)="onFileSelected($event)" id="add-image" type="file" accept=".png, .jpeg, .jpg, .webp" hidden multiple>
+                </label>
+                @if (images$().length > 0) {
+                    @if (showImageEditor$()) {
+                        <button (click)="showImageEditor$.set(false)" class="--flat-button">Close</button>
+                    }
+                    @else {
+                        <button (click)="showImageEditor$.set(true)" class="--flat-button">Edit</button>
+                    }
+                }
+                @else {
+                    <button class="--disabled-button">Edit</button>
+                }
+                @if (images$().length > 0) {
+                    <button (click)="clearImages()" class="--error-button">Clear</button>
+                }
+                @else {
+                    <button (click)="clearImages()" class="--disabled-button">Clear</button>
+                }
+            </div>
+        </div>
+
+        <!-- videos -->
+        <div class="input-container --disabled">
+            <p>Videos</p>
+            <div style="display: flex; height: 128px; width: 100%; gap: 8px; position: relative; align-items: center;">
+                <!-- @for (image of images$(); track image.id; let i = $index) {
+                    @if (i < 1) {
+                        <img [src]="image.image" height="128" width="128">
+                    }
+                    @else {
+                        <img style="position: absolute; left: 130px;" [src]="image.image" height="128" width="128">
+                    }
+                } -->
+                @if (true) {
+                    <p style="text-align: center; width: 100%;">Your product has no videos</p>
+                }
+                @if (false) {
+                    <div style="position: absolute; left: 130px; width: 128px; height: 100%; background-color: rgba(0, 0, 0, 0.4); display: flex; align-items: center; justify-content: center;">
+                        <p style="color: white;">+{{images$().length-1}} More</p>
+                    </div>
+                }
+            </div>
+            <div style="display: flex; gap: 8px;">
+                <label style="flex: 1; text-align: center;" class="--flat-button" for="add-image">
+                    Add
+                    <input (change)="onFileSelected($event)" id="add-image" type="file" accept=".png, .jpeg, .jpg, .webp" hidden multiple>
+                </label>
+                @if (false) {
+                    <button (click)="clearImages()" class="--error-button">Clear</button>
+                }
+                @else {
+                    <button (click)="clearImages()" class="--disabled-button">Clear</button>
+                }
+            </div>
+        </div>
+
+        
+        <!-- save button -->
+            <!-- will be either upload or save -->
+        <button (click)="applyChanges()" class="--accent-button">{{context$() === "upload"? "Upload" : "Save Changes"}}</button>
+    </aside>
+
+    <div id="content">
+        <app-product-viewer [product]="product$()" [variants]="variants$()" [images]="images$()"/>
+
+        <!-- image editor -->
+        @if (showImageEditor$()) {
+            <div 
+            id="image-editor" 
+            animate.enter="--animate-fade-enter"
+            animate.leave="--animate-fade-leave">
+
+                <div id="image-preview-container">
+                    @if (previewImage$()) {
+                        <button (click)="previewFullImage$.set(true)" class="--button" id="image-preview-button">
+                            <img [src]="previewImage$()?.image" id="image-preview">
+                        </button>
+                    }
+                    <div style="
+                        justify-content: center;
+                        display: grid;
+                        grid-template-columns: repeat(auto-fit, minmax(64px, 64px));
+                        grid-template-rows: repeat(auto-fit, minmax(64px, 64px));
+                        gap: 8px;
+                        width: 100%;
+                        overflow: auto;
+                        flex: 1;
+                    ">
+                        @for (image of images$(); track image.id) {
+                            <button (click)="previewImage$.set(image)" class="--button" style="padding: 0; width: 64px; height: 64px;">
+                                <img [src]="image.image" style="height: 100%; width: 100%; object-fit: cover;">
+                            </button>
+                        }
+                    </div>
+                </div>
+
+                <div class="--card" id="modify-image">
+                    <p class="--title">Modify Image</p>
+                    <i style="margin: 8px 0; color: rgba(0, 0, 0, 0.4);">{{previewImage$()?.file?.name}}</i>
+                    <div>
+                        <p>For variant</p>
+                        <select [(ngModel)]="previewImage$()!.variantId">
+                            @for (variant of variants$(); track variant.id) {
+                                <option [value]="variant.id">{{variant.name}}</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                
+            </div>
+        }
+    </div>
+
+
+</main>
+
+
+
+@if (previewFullImage$()) {
+    <div 
+    animate.enter="--animate-fade-enter"
+    animate.leave="--animate-fade-leave"
+    style="cursor: zoom-out; position: fixed; top: 0; left: 0; z-index: 10; background-color: rgba(0, 0, 0, 0.7); width: 100vw; height: 100vh;">
+        <img (click)="previewFullImage$.set(false)" [src]="previewImage$()?.image" style="position: fixed; z-index: 20; width: 100%; height: 100%; padding: 16px; object-fit: contain;">
+    </div>
+}

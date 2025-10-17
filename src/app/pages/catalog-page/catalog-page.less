@@ -1,22 +1,37 @@
 @import "variables.less";
 
-.container {
-    padding: 32px;
-    border: @border;
-    min-width: 16px;
-    min-height: 16px;
-}
-
-#sidebar {
+main {
     display: flex;
-    flex-direction: column;
-
-    padding: 16px;
-    min-width: 200px;
+    width: fit-content;
+    padding: 0px 16px;
+    width: 100%;
 }
 
-#contents {
+aside {
+    width: 300px;
+
+    .sidebar-content-container {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        padding: 16px;
+
+        p {
+            margin-bottom: 8px;
+        }
+
+        button {
+            text-align: left;
+        }
+    }
+
+    
+    
+}
+
+#content-container {
     display: grid;
-    grid-template-columns: auto auto auto auto;
+    grid-template-columns: auto auto auto auto auto;
     gap: 8px;
 }
+

@@ -3,7 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, signal } from '@angular/core';
 import { FormsModule } from "@angular/forms";
 import { ApiService } from '@services/api';
-import { ApiResponse } from '@services/models';
+import { ApiResponse } from '@lib/models';
 import { Subscription } from 'rxjs';
 
 @Component({

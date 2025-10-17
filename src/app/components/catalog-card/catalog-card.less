@@ -1,9 +1,11 @@
 @import "variables.less";
 
+@size-multiplier: 1.3;
+
 main {
     background-color: white;
-    width: 160px;
-    height: 256px;
+    width: calc(160px * @size-multiplier);
+    height: calc(256px * @size-multiplier);
 
     &:hover {
         cursor: pointer;

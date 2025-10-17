@@ -1,0 +1,21 @@
+<main
+animate.enter="--animate-fade-swipe-up-enter"
+animate.leave="--animate-fade-swipe-up-leave">
+    <div id="my-products" class="container">
+        <div style="display: flex; gap: 8px; align-items: center;">
+            <p class="--title-v3">My Products</p>
+            <button class="--accent-button add-button" (click)="router.navigate(['upload'])">+</button>
+        </div>
+        @if (products().length === 0) {
+            <p style="flex: 1; display: flex; align-items: center; width: 100%; justify-content: center; height: 100%;">You have no products</p>
+        }
+        
+    </div>
+    <div class="container" style="filter: brightness(0.9); background-color: white;" id="from-my-shop">
+        <p class="--title-v3 --text-disabled">From My Shop</p>
+        @if (products().length === 0) {
+            <p class="--text-disabled" style="flex: 1; display: flex; align-items: center; width: 100%; justify-content: center; height: 100%;">You have no products</p>
+        }
+        
+    </div>
+</main>

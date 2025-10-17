@@ -1,0 +1,21 @@
+<main>
+    <div style="display: flex; flex-direction: row; margin-bottom: 16px;">
+        <button (click)="onClick()" id="open-btn" style="text-align: left; flex: 1;" [class]="'--button ' + classList">{{displayText()}}</button>
+    </div>
+    <div style="overflow: hidden; position: relative;">
+        <div id="bar-indicator"
+        animate.enter="--animate-swipe-down-enter"
+        animate.leave="--animate-swipe-down-leave"></div>
+        @if (isOpened()) {
+            <div 
+            animate.enter="--animate-swipe-down-enter"
+            animate.leave="--animate-swipe-down-leave"
+            id="dropdown">
+                <!-- @for (item of itemList(); track $index) {
+                    <button style="text-align: left; width: 100%;" class="--button" (click)="_onItemSelected(item)">{{item}}</button>
+                } -->
+                <ng-content></ng-content>
+            </div>
+        }
+    </div>
+</main>

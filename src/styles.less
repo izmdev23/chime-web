@@ -1,9 +1,13 @@
 @import (css) url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 @import "variables.less";
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 * {
     font-size: @font-size;
-    font-family: Roboto;
+    font-family: "Roboto", "Arial" ;
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -30,17 +34,30 @@
     color: @color-error;
 }
 
+.--flex {
+    flex: 1;
+}
+
 .--input {
-    padding: 4px;
-    border: @border;
+    border-radius: 4px;
+    padding: 8px;
+    border: none;
+    background-color: @color-bg-primary;
+    filter: brightness(0.95);
+    width: 100%;
 
     &:hover {
-        filter: brightness(0.9);
+        filter: brightness(0.85);
     }
 
     &:active {
-        filter: brightness(0.75);
-        border: 1px solid @background-color-primary;
+        filter: brightness(0.7);
+        // border: 1px solid @color-bg-primary;
+    }
+
+    &:disabled {
+        border: 1px solid @color-bg-secondary;
+        background-color: @color-bg-secondary;
     }
 }
 
@@ -57,48 +74,174 @@ p.--hover {
 }
 
 .--button {
-    padding: 4px 8px;
-    background-color: white;
-    border: @border;
+    padding: 8px;
+    border-radius: 4px;
+    border: none;
+    background-color: @color-bg-primary;
 
     &:hover {
         cursor: pointer;
-        filter: brightness(0.9);
+        filter: brightness(0.85);
     }
 
     &:active {
-        filter: brightness(0.75);
+        filter: brightness(0.7);
     }
+    &:disabled {
+        padding: 8px;
+        background-color: white;
+        border-radius: 4px;
+        border: none;
+        filter: brightness(0.95);
+        cursor: auto
+    }
+}
+
+select {
+    .--button();
+    width: 100%;
+    background-color: @color-bg-secondary;
+}
+
+select .depth2 {
+    .--button();
+    filter: brightness(0.9);
+    &:hover {
+        cursor: pointer;
+        filter: brightness(0.85);
+    }
+
+    &:active {
+        filter: brightness(0.7);
+    }
+}
+
+option {
+    .--button();
+    outline: none;
+    border: none;
+}
+
+p.--title {
+    font-size: 1.2rem;
+}
+
+p.--title-v2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+p.--title-v3 {
+    font-size: 1.3rem;
+}
+
+p.--text-disabled {
+    color: rgba(0, 0, 0, 0.4);
+}
+
+.--disabled {
+    filter: brightness(0.9);
+    color: rgba(0, 0, 0, 0.4);
+    pointer-events: none;
+    background-color: @color-bg-primary;
+    padding: 8px;
+    border-radius: 8px
 }
 
 .--flat-button {
     .--button();
+    filter: brightness(0.9);
+}
 
-    background-color: #E0E0E0;
+.--disabled-button {
+    .--button();
+    filter: brightness(0.9);
+    color: rgba(0, 0, 0, 0.4);
+    pointer-events: none
+}
+
+.--transparent-button {
+    .--button();
+
+    background-color: transparent;
     border: none;
 }
 
 .--accent-button {
     .--button();
+    background-color: @color-accent-primary;
+}
 
-    background-color: @background-color-primary;
-    border: none;
+.--error-button {
+    .--button();
+
+    background-color: @color-button-error;
+    color: white;
 }
 
 .--card {
     background-color: white;
-    border: @border;
+    border-radius: 8px;
+    // border: @border;
+}
+
+.--shadow {
+    box-shadow: @shadow
 }
 
 .--hover-card {
     .--card();
 
     &:hover {
-        border: 1px solid @background-color-primary;
+        outline: 1px solid @background-color-primary;
+        scale: 1.01;
     }
 
     &:active {
         filter: @background-color-hover;
-        border: 1px solid @background-color-primary;
     }
+}
+
+textarea {
+    field-sizing: content;
+    width: 100%;
+    min-height: 10rem;
+    resize: none;
+    padding: 8px;
+    // pointer-events: none;
+    user-select: auto;
+}
+
+.--error {
+    color: @color-font-error;
+}
+
+
+// system
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: @color-bg-secondary;
+    border-radius: 999px;
+}
+
+
+
+
+
+// animations
+.--anim-fade-in {
+    animation: fadein @animation-speed;
+    animation-timing-function: @animation-ease-out;
+}
+
+.--anim-fade-in {
+    animation: fadeout @animation-speed reverse;
+    animation-timing-function: @animation-ease-in;
 }

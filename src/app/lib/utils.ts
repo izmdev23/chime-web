@@ -9,4 +9,20 @@ export namespace Utils {
         let rate = 1 - ratio;
         return Math.round(rate * 100);
     }
+
+    export function fileToImage(imageFile: File) {
+        const reader = new FileReader();
+        reader.onload = () => {
+
+        }
+        // reader.readAsDataURL()
+    }
+
+    export namespace Guid {
+        export const EMPTY = "00000000-0000-0000-0000-000000000000";
+    }
+
+    export function toCurrency(value: number): string {
+        return `₱${value}`;
+    }
 }

@@ -1,0 +1,12 @@
+<app-navbar/>
+<main
+animate.enter="--animate-fade-swipe-up-enter"
+animate.leave="--animate-fade-swipe-up-leave">
+    
+    <app-product-viewer
+    [product]="product$()"
+    [variants]="productVariants$()"
+    [images]="variantImages$()"
+    [preview]="false"/>
+
+</main> 

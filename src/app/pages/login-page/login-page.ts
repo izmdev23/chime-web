@@ -4,7 +4,7 @@ import { Component, HostListener, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from '@services/api';
-import { ApiResponse } from '@services/models';
+import { ApiResponse } from '@lib/models';
 import { CookieService } from 'ngx-cookie-service';
 import { Subscription } from 'rxjs';
 
@@ -29,6 +29,14 @@ export class LoginPage {
   ) {}
 
   login() {
+    if (
+      this.username().length === 0 ||
+      this.password().length === 0
+    ) {
+      this.errorMessage.set("All fields must not be empty");
+      return;
+    }
+    
     let sub = this.api.login({
       userName: this.username(),
       password: this.password()
@@ -40,15 +48,17 @@ export class LoginPage {
       },
       error: (error: HttpErrorResponse) => {
         let err = error.error as ApiResponse<undefined>;
-        this.errorMessage.set(err.message)
+        this.errorMessage.set(err.message);
         console.error("failed to login", err);
+
+
       },
       complete: () => {
         console.log("Login completed");
         const url = this.router.serializeUrl(
           this.router.createUrlTree(["/catalog"])
         );
-        window.open(url, "_blank");
+        // window.open(url, "_blank");
         this.location.back();
       }
     });
