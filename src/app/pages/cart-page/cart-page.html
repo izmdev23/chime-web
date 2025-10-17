@@ -14,39 +14,43 @@ animate.leave="--animate-fade-leave">
             </thead>
             <tbody>
                 @for (cartItem of cartItems$(); track $index) {
-                    <tr>
-                        <td>
-                            <div style="display: flex; gap: 8px; height: 100%;">
-                                <img [src]="`${api.address}/${cartItem.images[0]}`" class="item-image">
-                                <div style="height: 100%; padding: 4px 0; display: flex; flex-direction: column; gap: 4px;">
-                                    <p>{{items$().get(cartItem.productId)?.name}}</p>
-                                    <div style="display: flex; gap: 4px;">
-                                        <p>Variant:</p>
-                                        <p>{{getVariant(cartItem)}}</p>
+                    @if (cartItem.quantity > 0) {
+                        <tr
+                        animate.enter="--animate-fade-enter"
+                        animate.leave="--animate-fade-leave">
+                            <td>
+                                <div style="display: flex; gap: 8px; height: 100%;">
+                                    <img [src]="`${api.address}/${cartItem.images[0]}`" class="item-image">
+                                    <div style="height: 100%; padding: 4px 0; display: flex; flex-direction: column; gap: 4px;">
+                                        <p>{{items$().get(cartItem.productId)?.name}}</p>
+                                        <div style="display: flex; gap: 4px;">
+                                            <p>Variant:</p>
+                                            <p>{{getVariant(cartItem)}}</p>
+                                        </div>
+                                        <button class="--button" id="delete-button">Remove</button>
                                     </div>
-                                    <button class="--button" id="delete-button">Remove</button>
                                 </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="cart-item-cell"> 
-                                <p>{{util.toCurrency(getPrice(cartItem.productId, cartItem.variantId))}}</p>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="cart-item-cell" style="display: flex; gap: 8px; justify-content: space-between; display: flex; align-items: center;">
-                                <button (click)="decreaseQuantity(cartItem)" class="--flat-button update-quantity-button">-</button>
-                                <p>{{cartItem.quantity}}</p>
-                                <button (click)="increaseQuantity(cartItem)" class="--flat-button update-quantity-button">+</button>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="cart-item-cell">
-                                <p class="cart-item-cell quantity-cell price">{{util.toCurrency(getPrice(cartItem.productId, cartItem.variantId) * cartItem.quantity)}}</p>
-                            </div>
-                        </td>
-                        
-                    </tr>
+                            </td>
+                            <td>
+                                <div class="cart-item-cell"> 
+                                    <p>{{util.toCurrency(getPrice(cartItem.productId, cartItem.variantId))}}</p>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="cart-item-cell" style="display: flex; gap: 8px; justify-content: space-between; display: flex; align-items: center;">
+                                    <button (click)="decreaseQuantity(cartItem)" class="--flat-button update-quantity-button">-</button>
+                                    <p>{{cartItem.quantity}}</p>
+                                    <button (click)="increaseQuantity(cartItem)" class="--flat-button update-quantity-button">+</button>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="cart-item-cell">
+                                    <p class="cart-item-cell quantity-cell price">{{util.toCurrency(getPrice(cartItem.productId, cartItem.variantId) * cartItem.quantity)}}</p>
+                                </div>
+                            </td>
+                            
+                        </tr>
+                    }
                 }
             </tbody>
         </table>
@@ -79,7 +83,7 @@ animate.leave="--animate-fade-leave">
         } -->
     </div>
     <aside>
-        <div class="--shadow" style="padding: 16px; height: fit-content;">
+        <div class="--shadow --card" style="padding: 16px; height: fit-content;">
             <div>
                 <h1>Shipping Cost</h1>
                 <div style="display: flex; justify-content: space-between; padding: 16px 0;">
@@ -94,7 +98,7 @@ animate.leave="--animate-fade-leave">
                 </div>
             </div>
         </div>
-        <div class="--shadow" style="padding: 16px; height: fit-content;">
+        <div class="--shadow --card" style="padding: 16px; height: fit-content;">
             <h1 style="margin-bottom: 16px;">Cart Total</h1>
             <div style="display: flex; flex-direction: column; gap: 4px;">
                 <div style="display: flex; justify-content: space-between;">

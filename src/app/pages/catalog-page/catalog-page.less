@@ -7,8 +7,26 @@ main {
     width: 100%;
 }
 
-.container {
-    padding: 16px;
+aside {
+    width: 300px;
+
+    .sidebar-content-container {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        padding: 16px;
+
+        p {
+            margin-bottom: 8px;
+        }
+
+        button {
+            text-align: left;
+        }
+    }
+
+    
+    
 }
 
 #content-container {
@@ -17,47 +35,3 @@ main {
     gap: 8px;
 }
 
-
-// main {
-//     display: flex; 
-//     gap: 8px; 
-//     margin: 32px 0px; 
-//     align-items: start;
-// }
-
-// .container {
-//     padding: 32px;
-//     border: @border;
-//     min-width: 16px;
-    
-// }
-
-// #sidebar {
-//     display: flex;
-//     flex-direction: column;
-
-//     padding: 16px;
-//     min-width: 200px;
-//     min-height: fit-content;
-// }
-
-// #contents {
-//     display: grid;
-//     grid-template-columns: auto auto auto auto;
-//     gap: 8px;
-// }
-
-// #upload-button {
-//     padding: 8px 16px;
-//     border-radius: 999px;
-
-//     display: flex;
-//     gap: 8px;
-//     align-items: center;
-
-//     position: fixed;
-//     bottom: 32px;
-//     right: 32px;
-
-//     z-index: 5;
-// }

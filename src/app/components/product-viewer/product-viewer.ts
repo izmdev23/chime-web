@@ -24,7 +24,7 @@ export class ProductViewer {
   @Input() preview = true;
 
   protected previewImageClass$ = signal("");
-  protected previewImage$ = signal<Image | null>(null);
+  protected previewImage$ = signal<Image | undefined>(undefined);
   protected product$ = signal<Product>(Enums.Defaults.Model.PRODUCT);
   protected variants$ = signal<ProductVariant[]>([]);
   protected images$ = signal<Image[]>([]);
@@ -119,7 +119,7 @@ export class ProductViewer {
     this.selectedVariant$.set(variant);
     // adjust the image to the proper variant
     const currentImage = this.previewImage$()
-    if (currentImage === null) {
+    if (currentImage === undefined) {
       const img = this.images$().filter(e => e.variantId === variant.id);
       if (img.length === 0) return;
       this.previewImage$.set(img[0]);
@@ -162,7 +162,7 @@ export class ProductViewer {
 
   getSelectedImageClass(image: Image) {
     const previewImage = this.previewImage$();
-    if (previewImage === null) return "";
+    if (previewImage === undefined) return "";
     if (previewImage.id === image.id) return "selected-image";
     return "";
   }

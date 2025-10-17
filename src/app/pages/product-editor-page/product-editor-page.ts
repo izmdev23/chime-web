@@ -6,11 +6,9 @@ import { ProductCategory, Product, ProductVariant, Image, ProductUploadDto, Prod
 import { ApiService } from '@services/api';
 import { LogService } from '@services/logger';
 import { v4 as uuid } from "uuid";
-import { NavbarLayout } from "@layouts/navbar-layout/navbar-layout";
 import { ProductViewer } from "@components/product-viewer/product-viewer";
 import { FormsModule } from '@angular/forms';
 import { SecureService } from '@services/security';
-import { errorContext } from 'rxjs/internal/util/errorContext';
 import { Utils } from '@lib/utils';
 import { Location } from '@angular/common';
 import { Navbar } from "@components/navbar/navbar";
@@ -19,7 +17,7 @@ type Context = "upload" | "edit";
 
 @Component({
   selector: 'app-product-editor-page',
-  imports: [NavbarLayout, ProductViewer, FormsModule, Navbar],
+  imports: [ProductViewer, FormsModule, Navbar],
   templateUrl: './product-editor-page.html',
   styleUrl: './product-editor-page.less'
 })
@@ -47,10 +45,7 @@ export class ProductEditorPage {
   ) {
     effect(() => {
       const cat = this.categories$().find(e => e.id == this.product$().categoryId);
-      if (cat === undefined) {
-        console.error("Category is not found");
-        return;
-      }
+      if (cat === undefined) return;
       this.selectedCategory$.set(cat.name);
     })
   }
@@ -337,9 +332,6 @@ export class ProductEditorPage {
         console.error(response);
         this.logger.error(`An error occured while uploading iamge ${image.file? image.file.name : ''}`);
       },
-      complete: () => {
-        this.logger.success("Product upload successful");
-      }
     })
   }
 }

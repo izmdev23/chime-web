@@ -14,7 +14,7 @@ import { Navbar } from "@components/navbar/navbar";
 
 @Component({
   selector: 'app-catalog-page',
-  imports: [NavbarLayout, CatalogCard, UploadButton, DropdownBox, Navbar],
+  imports: [CatalogCard, UploadButton, DropdownBox, Navbar],
   templateUrl: './catalog-page.html',
   styleUrl: './catalog-page.less'
 })

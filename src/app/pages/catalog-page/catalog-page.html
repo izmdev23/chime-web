@@ -2,11 +2,14 @@
 <main
 animate.enter="--animate-fade-swipe-up-enter"
 animate.leave="--animate-fade-leave">
-    <div class="--card container">
-        <div style="width: 256px;">
-            <app-dropdown-box title="Category" [list]="categoriesStringList()" (onItemSelected)="categoriesSelected([])" id="categories-list"/>
-        </div>            
-    </div>
+    <aside class="--card container">
+        <div class="sidebar-content-container" style="width: 256px;">
+            <p class="--title-v2">Categories</p>
+            @for (category of categories(); track category.id) {
+                <button class="--button">{{category.name}}</button>
+            }
+        </div>
+    </aside>
     <div style="padding: 0px 16px; width: 100%;">
         <!-- sidebar -->
         <div style="height: 3rem; display: flex; gap: 8px;">

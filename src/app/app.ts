@@ -49,7 +49,6 @@ export class App {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log("Change");
     if (changes["errors"]) {
       console.log(changes["errors"].currentValue);
     }
